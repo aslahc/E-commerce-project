@@ -1,0 +1,301 @@
+﻿<%- include('../layouts/head.ejs') -%>
+
+    <body>
+        <!-- Quick view -->
+
+        <%- include('../layouts/userNav.ejs') -%>
+
+            <main class="main">
+                <div class="page-header breadcrumb-wrap">
+                    <div class="container">
+                        <div class="breadcrumb">
+                            <a href="index.html" rel="nofollow">Home</a>
+                            <span></span> Shop
+                        </div>
+                    </div>
+                </div>
+                <section class="mt-50 mb-50">
+                    <div class="container">
+                        <div class="row flex-row-reverse">
+                            <div class="col-lg-9">
+                                <div class="shop-product-fillter">
+                                    <div class="totall-product">
+                                        <p> We found <strong class="text-brand">
+                                                <%=products.length %>
+                                            </strong> items for you!</p>
+                                    </div>
+                                    <div class="sort-by-product-area">
+                                        <div class="sort-by-cover mr-10">
+                                            <div class="sort-by-product-wrap">
+                                                <div class="sort-by">
+                                                    <span><i class="fi-rs-apps"></i>Show:</span>
+                                                </div>
+                                                <div class="sort-by-dropdown-wrap">
+                                                    <span> 50 <i class="fi-rs-angle-small-down"></i></span>
+                                                </div>
+                                            </div>
+                                            <div class="sort-by-dropdown">
+                                                <ul>
+                                                    <li><a class="active" href="#">50</a></li>
+                                                    <li><a href="#">100</a></li>
+                                                    <li><a href="#">150</a></li>
+                                                    <li><a href="#">200</a></li>
+                                                    <li><a href="#">All</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="sort-by-cover">
+                                            <div class="sort-by-product-wrap">
+                                                <div class="sort-by">
+                                                    <span><i class="fi-rs-apps-sort"></i>Sort by:</span>
+                                                </div>
+                                                <div class="sort-by-dropdown-wrap">
+                                                    <span> Featured <i class="fi-rs-angle-small-down"></i></span>
+                                                </div>
+                                            </div>
+                                            <div class="sort-by-dropdown">
+                                                <ul>
+                                                    <li><a class="active" href="#">Featured</a></li>
+                                                    <li><a href="#">Price: Low to High</a></li>
+                                                    <li><a href="#">Price: High to Low</a></li>
+                                                    <li><a href="#">Release Date</a></li>
+                                                    <li><a href="#">Avg. Rating</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Your existing HTML and content above this line -->
+
+                                <div class="row product-grid-3">
+
+                                    <% for(let i=0; i<products.length; i++) { %>
+
+
+
+                                        <div class="col-lg-4 col-md-4 col-12 col-sm-6">
+                                            <div class="product-cart-wrap mb-30">
+                                                <div class="product-img-action-wrap">
+                                                    <div class="product-img product-img-zoom">
+                                                        <a href="/productDetails?id=<%= products[i]._id %>">
+                                                            <img class="default-img"
+                                                                src="/admin-asset/productImage/<%=products[i].image[0].filename %>"
+                                                                alt="">
+                                                            <img class="hover-img" src="" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="product-action-1">
+                                                        <a aria-label="Quick view" class="action-btn hover-up"
+                                                            data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                                            <i class="fi-rs-search"></i>
+                                                        </a>
+                                                        <a aria-label="Add To Wishlist" class="action-btn hover-up"
+                                                            href="shop-wishlist.html">
+                                                            <i class="fi-rs-heart"></i>
+                                                        </a>
+                                                        <a aria-label="Compare" class="action-btn hover-up"
+                                                            href="shop-compare.html">
+                                                            <i class="fi-rs-shuffle"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div
+                                                        class="product-badges product-badges-position product-badges-mrg">
+                                                        <span class="hot">Hot</span>
+                                                    </div>
+                                                </div>
+                                                <div class="product-content-wrap">
+                                                    <div class="product-category">
+                                                        <a href="shop-grid-right.html">
+                                                            <%= products[i].Brand %>
+                                                        </a>
+                                                    </div>
+                                                    <h2><a href="shop-product-right.html">
+                                                            <%= products[i].productName %>
+                                                        </a></h2>
+                                                    <div class="rating-result" title="90%">
+                                                        <span>
+                                                            <span>
+                                                                <%= Math.round(((products[i].regularPrice-products[i].salePrice)/
+                                                                    products[i].regularPrice)*100) %> %
+                                                            </span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="product-price">
+                                                        <span> ₹<%= products[i].salePrice %> </span>
+                                                        <span class="old-price"> ₹<%= products[i].regularPrice %>
+                                                        </span>
+                                                    </div>
+                                                    <div class="product-action-1 show">
+                                                        <a aria-label="Add To Cart" class="action-btn hover-up"
+                                                            onclick="addToCart('/addCart-icon?id=<%= products[i]._id %>')">
+                                                            <i class="fi-rs-shopping-bag-add"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% } %>
+                                </div>
+
+                                <div class="pagination-area mt-15 mb-sm-5 mb-lg-0">
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination justify-content-start">
+                                            <% for( let i=0; i < totalNumberOfPages; i++ ) { %>
+
+                                                <li class="page-item <%= i == page ? 'active' : '' %>">
+                                                    <a class="page-link" href="/shopList?page=<%= i %>">
+                                                        <%= i+1 %>
+                                                    </a>
+                                                    <% } %>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+
+
+                            <!-- Your existing HTML and content below this line -->
+
+                            <div class="col-lg-3 primary-sidebar sticky-sidebar">
+                                <div class="widget-category mb-30">
+                                    <h5 class="section-title style-1 mb-30 wow fadeIn animated">Category</h5>
+                                    <ul class="categories">
+                                        <a href="/shopList">All category</a>
+                                        <% for(let i=0; i<category.length; i++) { %>
+                                            <li><a href="/shopList?id=<%= category[i]._id %>">
+                                                    <%= category[i].catName %>
+                                                </a></li>
+                                            <% } %>
+                                    </ul>
+                                </div>
+                                <!-- Filter By Price and Brand -->
+                                <div class="sidebar-widget price_range range mb-30">
+                                    <div class="widget-header position-relative mb-20 pb-10">
+                                        <h5 class="widget-title mb-10">Filter by</h5>
+                                        <div class="bt-1 border-color-1"></div>
+                                    </div>
+                                    <form action="/shopList" method="get">
+                                        <!-- Existing code for search and category filters -->
+
+                                        <!-- Price Range Filter -->
+                                        <div>
+                                            <label class="form-group   form-group "> <b>Price Range: </b></label>
+                                            <select name="priceRange" class="form-control">
+                                                <option value="0-499">0-499</option>
+                                                <option value="500-999">500-999</option>
+                                                <option value="1000-2999">1000-2999</option>
+                                            </select>
+                                        </div>
+                                        <br>
+                                        <br>
+
+                                        <!-- Brand Filter -->
+                                        <label class="fw-900">Brand:</label>
+                                        <br>
+                                        <input class="form-check-input" type="checkbox" name="brands"
+                                            value="UrbanStitch"> UrbanStitch
+                                        <br>
+                                        <input class="form-check-input" type="checkbox" name="brands" value="lp"> lp
+                                        <br>
+                                        <input class="form-check-input" type="checkbox" name="brands"
+                                            value="ThreadTrend"> ThreadTrend
+                                        <br>
+                                        <input class="form-check-input" type="checkbox" name="brands" value="polo"> polo
+                                        <br>
+                                        <input class="form-check-input" type="checkbox" name="brands" value="puma"> puma
+                                        <br>
+                                        <br>
+                                        <!-- Size Filter -->
+                                        <label class="fw-900">Size:</label>
+                                        <br>
+                                        <input class="form-check-input" type="checkbox" name="sizes" value="S"> Small
+                                        <br>
+                                        <input class="form-check-input" type="checkbox" name="sizes" value="M"> Medium
+                                        <br>
+                                        <input class="form-check-input" type="checkbox" name="sizes" value="XXL"> Large
+                                        <br>
+
+
+                                        <button type="submit">Filter</button>
+                                    </form>
+
+                                </div>
+                            </div>
+
+                        </div>
+                </section>
+
+            </main>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+            <script>
+
+
+
+                function addToCart(productId) {
+
+
+                    $.ajax({
+                        url: productId,
+                        type: "post",
+                        contentType: "application/json",
+                        data: JSON.stringify({ is_blocked: true }),
+                        success: function (data) {
+
+                            Swal.fire({
+                                position: "center",
+                                icon: "success",
+                                title: "Product added to cart!",
+                                showConfirmButton: false,
+                                timer: 1500,
+                            });
+                            // handle success, 'data' contains the response from the server
+
+                        },
+                        error: function (xhr, status, error) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "Quantity exceeds available stock",
+                            });
+                            // handle error, 'xhr' is the XMLHttpRequest, 'status' is the status code, and 'error' is the error thrown
+                            console.error('Error:', error);
+                        },
+                    });
+
+                    // Log product ID to the console for debugging
+
+
+                    // Show SweetAlert at the center
+
+                }
+            </script>
+
+            <%- include("../layouts/userFooter.ejs") -%>
+                <!-- Preloader Start -->
+
+                <!-- Vendor JS-->
+                <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+
+                <script src="assets/js/vendor/modernizr-3.6.0.min.js"></script>
+                <script src="assets/js/vendor/jquery-3.6.0.min.js"></script>
+                <script src="assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
+                <script src="assets/js/vendor/bootstrap.bundle.min.js"></script>
+                <script src="assets/js/plugins/slick.js"></script>
+                <script src="assets/js/plugins/jquery.syotimer.min.js"></script>
+                <script src="assets/js/plugins/wow.js"></script>
+                <script src="assets/js/plugins/jquery-ui.js"></script>
+                <script src="assets/js/plugins/perfect-scrollbar.js"></script>
+                <script src="assets/js/plugins/magnific-popup.js"></script>
+                <script src="assets/js/plugins/select2.min.js"></script>
+                <script src="assets/js/plugins/waypoints.js"></script>
+                <script src="assets/js/plugins/counterup.js"></script>
+                <script src="assets/js/plugins/jquery.countdown.min.js"></script>
+                <script src="assets/js/plugins/images-loaded.js"></script>
+                <script src="assets/js/plugins/isotope.js"></script>
+                <script src="assets/js/plugins/scrollup.js"></script>
+                <script src="assets/js/plugins/jquery.vticker-min.js"></script>
+                <script src="assets/js/plugins/jquery.theia.sticky.js"></script>
+                <script src="assets/js/plugins/jquery.elevatezoom.js"></script>
+                <!-- Template  JS -->
+                <script src="assets/js/maind134.js?v=3.4"></script>
+                <script src="assets/js/shopd134.js?v=3.4"></script>
+                <%- include("../layouts/footer.ejs") -%>

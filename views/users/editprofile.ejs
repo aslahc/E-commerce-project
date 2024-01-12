@@ -1,0 +1,185 @@
+<%- include('../layouts/head.ejs') -%>
+
+
+  <%- include('../layouts/userNav.ejs') -%>
+    <div class="container">
+      <div class="card mx-auto mt-5">
+        <div class="card-header">
+          <h5>Account Details</h5>
+        </div>
+        <div class="card-body">
+
+          <form method="post" action="/editProfile" name="enq" onclick="return validate() ">
+            <div class="row">
+              <div class="form-group col-md-5">
+                <label for="firstName">First Name <span class="required">*</span></label>
+                <input required="" value="<%= user.name %>" class="form-control" id="firstName" name="name" type="text">
+                <p id="nameError" style="color: red;"></p>
+              </div>
+              <div class="form-group col-md-5">
+                <label for="mobile">Mobile <span class="required"></span></label>
+                <input required="" value="<%= user.mobile %>" class="form-control" id="mobile" name="mobile"
+                  type="text">
+                <p id="mobileError" style="color: red;"></p>
+              </div>
+              <!-- Other form fields with similar structure -->
+
+              <div class="form-group col-md-5">
+                <% if (typeof message !=='undefined' ) { %>
+                  <p style="color: rgb(255, 0, 0)">
+                    <%= message %>
+                  </p>
+                  <% } %>
+                    <label for="currentPassword">Current Password <span class="required"></span></label>
+                    <input required="" class="form-control" id="currentPassword" name="password" type="password">
+                    <p id="currentPasswordError" style="color: red;"></p>
+              </div>
+              <div class="form-group col-md-5">
+                <label for="newPassword">New Password <span class="required"></span></label>
+                <input required="" class="form-control" id="newPassword" name="npassword" type="password">
+                <p id="newPasswordError" style="color: red;"></p>
+              </div>
+              <div class="form-group col-md-5">
+                <label for="confirmPassword">Confirm Password <span class="required">*</span></label>
+                <input required="" class="form-control" id="confirmPassword" name="cpassword" type="password">
+                <p id="confirmPasswordError" style="color: red;"></p>
+              </div>
+
+              <div class="col-md-12">
+                <input type="hidden" name="id" value="<%= user._id %>">
+                <button type="submit" class="btn btn-primary btn-block" name="submit" value="Submit">Save</button>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function validate() {
+        // Input fields
+        const name = document.getElementById("firstName");
+        const mobile = document.getElementById("mobile");
+        const currentPassword = document.getElementById("currentPassword");
+        const newPassword = document.getElementById("newPassword");
+        const confirmPassword = document.getElementById("confirmPassword");
+
+        // Error fields
+        const nameError = document.getElementById("nameError");
+        const mobileError = document.getElementById("mobileError");
+        const currentPasswordError = document.getElementById("currentPasswordError");
+        const newPasswordError = document.getElementById("newPasswordError");
+        const confirmPasswordError = document.getElementById("confirmPasswordError");
+
+        // Regex
+        const nameRegex = /^[A-Z]/;
+        const mobileRegex = /^[0-9]{10}$/;
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+        // Name field
+        if (name.value.trim() === "") {
+          nameError.innerHTML = "Field is required";
+          setTimeout(() => {
+            nameError.innerHTML = "";
+          }, 5000);
+          return false;
+        }
+        if (!nameRegex.test(name.value)) {
+          nameError.innerHTML = "First letter should be capital";
+          setTimeout(() => {
+            nameError.innerHTML = "";
+          }, 5000);
+          return false;
+        }
+
+        // Mobile field
+        if (mobile.value.trim() === "") {
+          mobileError.innerHTML = "Field is required";
+          setTimeout(() => {
+            mobileError.innerHTML = "";
+          }, 5000);
+          return false;
+        }
+        if (!mobileRegex.test(mobile.value)) {
+          mobileError.innerHTML = "Please enter a valid number";
+          setTimeout(() => {
+            mobileError.innerHTML = "";
+          }, 5000);
+          return false;
+        }
+
+        // Current Password field
+        if (currentPassword.value.trim() === "") {
+          currentPasswordError.innerHTML = "Field is required";
+          setTimeout(() => {
+            currentPasswordError.innerHTML = "";
+          }, 5000);
+          return false;
+        }
+
+        // New Password field
+        if (newPassword.value.trim() === "") {
+          newPasswordError.innerHTML = "Field is required";
+          setTimeout(() => {
+            newPasswordError.innerHTML = "";
+          }, 5000);
+          return false;
+        }
+        if (!passwordRegex.test(newPassword.value)) {
+          newPasswordError.innerHTML = "Please enter a tight password";
+          setTimeout(() => {
+            newPasswordError.innerHTML = "";
+          }, 5000);
+          return false;
+        }
+
+        // Confirm Password field
+        if (confirmPassword.value.trim() === "") {
+          confirmPasswordError.innerHTML = "Field is required";
+          setTimeout(() => {
+            confirmPasswordError.innerHTML = "";
+          }, 5000);
+          return false;
+        }
+        if (confirmPassword.value !== newPassword.value) {
+          confirmPasswordError.innerHTML = "Passwords do not match";
+          setTimeout(() => {
+            confirmPasswordError.innerHTML = "";
+          }, 5000);
+          return false;
+        }
+
+        return true;
+      }
+
+    </script>
+
+
+
+
+    <%- include("../layouts/userFooter.ejs") -%>
+
+      <!-- Vendor JS-->
+      <script src="assets/js/vendor/modernizr-3.6.0.min.js"></script>
+      <script src="assets/js/vendor/jquery-3.6.0.min.js"></script>
+      <script src="assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
+      <script src="assets/js/vendor/bootstrap.bundle.min.js"></script>
+      <script src="assets/js/plugins/slick.js"></script>
+      <script src="assets/js/plugins/jquery.syotimer.min.js"></script>
+      <script src="assets/js/plugins/wow.js"></script>
+      <script src="assets/js/plugins/jquery-ui.js"></script>
+      <script src="assets/js/plugins/perfect-scrollbar.js"></script>
+      <script src="assets/js/plugins/magnific-popup.js"></script>
+      <script src="assets/js/plugins/select2.min.js"></script>
+      <script src="assets/js/plugins/waypoints.js"></script>
+      <script src="assets/js/plugins/counterup.js"></script>
+      <script src="assets/js/plugins/jquery.countdown.min.js"></script>
+      <script src="assets/js/plugins/images-loaded.js"></script>
+      <script src="assets/js/plugins/isotope.js"></script>
+      <script src="assets/js/plugins/scrollup.js"></script>
+      <script src="assets/js/plugins/jquery.vticker-min.js"></script>
+      <!-- Template  JS -->
+      <script src="assets/js/maind134.js?v=3.4"></script>
+      <script src="assets/js/shopd134.js?v=3.4"></script>
+      <%- include("../layouts/footer.ejs") -%>

@@ -1,0 +1,143 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Teko:wght@300;700&display=swap');
+</style>
+<header class="header-area header-style-3 header-height-2" style="background-color:rgb(249, 244, 244)">
+    <div class="header-top header-top-ptb-1 d-none d-lg-block">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-xl-3 col-lg-4">
+                    <div class="header-info">
+
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-4">
+
+                </div>
+                <div class="col-xl-3 col-lg-4">
+                    <div class="header-info header-info-right">
+                        <ul>
+                            <% console.log(loggedIn) %>
+                                <% if (loggedIn) { %>
+                                    <div class="dropdown">
+                                        <i class="fi-rs-user" id="userIcon" onclick="toggleDropdown()"></i>
+                                        <div class="dropdown-menu" id="userDropdown">
+                                            <a class="dropdown-item text-primary" href="/profile"><i
+                                                    class="fas fa-user"></i> Profile</a>
+                                            <a class="dropdown-item text-danger" href="/logout"><i
+                                                    class="fas fa-sign-out-alt"></i> Log Out</a>
+                                        </div>
+                                    </div>
+
+                                    <script>
+                                        function toggleDropdown() {
+                                            var dropdown = document.getElementById("userDropdown");
+                                            dropdown.classList.toggle("show");
+                                        }
+                                    </script>
+                                    <% } else { %>
+                                        <li><a href="/login">Log In / Sign Up </a></li>
+                                        <% } %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
+        <div class="container">
+            <div class="header-wrap">
+                <div class="logo logo-width-1">
+                    <a href="/home">
+                        <h2>
+                            <p style="font-family: 'Teko', sans-serif; font-size: larger;">flock</p>
+                        </h2>
+                    </a>
+                </div>
+                <div class="header-right">
+                    <div class="search-style-2">
+                        <div class="input-group">
+                            <select class="form-select select-active" id="categorySelect">
+                                <option value="All">All Categories</option>
+                                <% for(let i=0; i < category.length; i++) { %>
+                                    <option value="<%= category[i]._id %>">
+                                        <%= category[i].catName %>
+                                    </option>
+                                    <% } %>
+                            </select>
+                            <input type="text" class="form-control" id="searchInput" name="search"
+                                placeholder="Search for items...">
+                            <button class="btn btn-outline-secondary" type="button"
+                                onclick="submitSearch()">Search</button>
+                        </div>
+                    </div>
+
+                    <div class="header-action-right">
+                        <div class="header-action-2">
+                            <div class="header-action-icon-2">
+                                <a href="/wishlist">
+                                    <img class="svgInject" alt="Evara" src="/assets/imgs/theme/icons/icon-heart.svg">
+                                    <span class="pro-count blue">4</span>
+                                </a>
+                            </div>
+                            <div class="header-action-icon-2">
+                                <a class="mini-cart-icon" href="/cart">
+                                    <img alt="Evara" src="/assets/imgs/theme/icons/icon-cart.svg">
+                                    <span class="pro-count blue">2</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header-bottom header-bottom-bg-color sticky-bar" style="background-color:rgb(249, 244, 244)">
+        <div class="container">
+            <div class="header-wrap header-space-between position-relative main-nav">
+                <div class="logo logo-width-1 d-block d-lg-none">
+                    <a href="/home"><img src="/public/assets/imgs/theme/app-store.jpg" alt="logo"></a>
+                </div>
+                <div class="header-nav d-none d-lg-flex">
+                    <div class="main-categori-wrap d-none d-lg-block">
+                        <div class="categori-dropdown-wrap categori-dropdown-active-large">
+                            <!-- Dropdown content goes here -->
+                        </div>
+                    </div>
+                    <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block">
+                        <nav>
+                            <ul>
+                                <% if (loggedIn) { %>
+                                    <li style="margin-left: 200px;"><a class="active" href="/home">Home</a></li>
+                                    <% } else { %>
+                                        <li style="margin-left: 200px;"><a class="active" href="/">Home</a></li>
+                                        <% } %>
+                                            <li style="margin-left: 50px;"><a href="/about">About</a></li>
+                                            <li style="margin-left: 50px;"><a href="/shopList">Shop</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<script>
+    // Search products in the shop
+    function submitSearch() {
+        console.log("entering");
+        const searchInputValue = document.getElementById("searchInput").value;
+        const selectedCategoryValue = document.getElementById("categorySelect").value;
+        console.log(searchInputValue);
+        console.log(selectedCategoryValue);
+        // Using fetch to send the search query to the server
+        // fetch(
+        //     `/search?search=${encodeURIComponent(searchInputValue)}&category=${encodeURIComponent(selectedCategoryValue)}`
+        // )
+        //     .then((response) => response.text())
+        //     .then((data) => {
+        //         // Handle the response data as needed
+        //     })
+        //     .catch((error) => console.error("Error:", error));
+        window.location.href = `search?search=${encodeURIComponent(searchInputValue)}&category=${encodeURIComponent(selectedCategoryValue)}`
+    }
+</script>

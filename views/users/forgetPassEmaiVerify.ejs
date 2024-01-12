@@ -1,0 +1,91 @@
+<%- include('../layouts/head.ejs') -%>
+
+    <body>
+
+        <%- include('../layouts/userNav.ejs') -%>
+
+            <div class="container mt-5 pt-35 pb-35">
+
+                <div class="card mx-auto" style="max-width: 400px;">
+
+                    <div class="card-header  text-white" style="background-color: antiquewhite;">
+
+                        <h2 class="text-center">Verify Email</h2>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <p class="text-center">Please enter your email</p>
+
+                        <form action="/forgetPasswordEmail" method="post" onsubmit="return validateEmail()">
+
+                            <div class="form-group">
+
+                                <label for="otp">Enter Email:</label>
+
+                                <input type="text" class="form-control" name="email" id="emailInput" required>
+                                <p id="emailError" style="color: red;"></p>
+                                <% if (typeof message !=='undefined' ) { %>
+                                    <p class="error-message" style="color: red;">
+                                        <%= message %>
+                                    </p>
+                                    <% } %>
+
+                            </div>
+
+                            <button type="submit" class="btn btn-success btn-block mt-3"
+                                onclick="return validateEmail()">send otp</button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <%- include("../layouts/userFooter.ejs") -%>
+
+                <%- include("../layouts/footer.ejs") -%>
+
+                    <script>
+                        function validateEmail() {
+                            var emailInput = document.getElementById('emailInput');
+                            var emailError = document.getElementById('emailError');
+                            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                            if (!emailInput.value.trim()) {
+                                showError('Please enter your email address');
+                                return false;
+                            }
+
+                            if (!emailRegex.test(emailInput.value)) {
+                                showError('Please enter a valid email address');
+                                return false;
+                            }
+
+                            // Clear the error message if there are no issues
+                            emailError.innerText = '';
+
+                            return true;
+                        }
+
+                        function showError(message) {
+                            var emailError = document.getElementById('emailError');
+                            emailError.innerText = message;
+
+                            // Clear the error message after 3 seconds (adjust the timeout duration as needed)
+                            setTimeout(function () {
+                                emailError.innerText = '';
+                            }, 3000);
+                        }
+                    </script>
+                    <script>
+                        sessionStorage.removeItem("counter2");
+                        sessionStorage.removeItem("counter3");
+                    </script>
+
+    </body>
+
+    </html>

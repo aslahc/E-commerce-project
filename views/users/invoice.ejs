@@ -1,0 +1,137 @@
+<%- include('../layouts/head.ejs') -%>
+
+    <body>
+        <%- include('../layouts/userNav.ejs') -%>
+            <section class="content-main">
+                <div class="content-header">
+                    <br>
+                    <br>
+                    <div class="text-center"> <!-- Centering content -->
+                        <h2 class="content-title card-title">Invoice</h2>
+                        <p>Details for Order ID: <%= order._id %>
+                        </p>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 col-md-12">
+                        <div class="card">
+                            <header class="card-header">
+                                <div class="row align-items-center">
+                                    <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
+                                        <span>
+                                            <i class="material-icons md-calendar_today"></i>
+                                            <b>
+                                                <%= order.createdOn.toLocaleDateString() %>
+                                            </b>
+                                        </span>
+                                        <br>
+                                        <small class="text-muted">Order ID:<%= order._id %> </small>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 ms-auto text-md-end">
+                                        <a class="btn btn-primary" href="/saveinvoice?id=<%= order._id %>">
+                                            <i class="icon material-icons md-cloud_download mr-5"></i>Save PDF
+                                        </a>
+                                    </div>
+                                </div>
+                            </header> <!-- card-header end// -->
+
+                            <br><br>
+                            <div class="card-body">
+                                <div class="receipt-content">
+                                    <div class="container bootstrap snippets bootdey">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="invoice-wrapper">
+                                                    <div class="intro">
+                                                        Hi <strong>
+                                                            <%= order.address.fullName %>
+                                                        </strong>,
+                                                        <br>
+                                                        This is the receipt for a payment of
+                                                        <strong>$<%= (order.products.price *
+                                                                order.products.quantity).toFixed(2) %></strong>
+                                                        (USD) for your works
+                                                    </div>
+
+                                                    <!-- ... (omitting some sections for brevity) ... -->
+
+                                                    <div class="line-items">
+                                                        <div class="headers clearfix">
+                                                            <div class="row">
+                                                                <div class="col-md-4">Description</div>
+                                                                <div class="col-md-3">Quantity</div>
+                                                                <div class="col-md-5 text-end">Amount</div>
+                                                            </div>
+                                                        </div>
+                                                        <% let totalSubTotal=0 %>
+                                                            <% for (let i=0; i < products.length; i++) { %>
+                                                                <div class="items">
+                                                                    <div class="row item">
+                                                                        <div class="col-md-4 desc">
+                                                                            <%= products[i].productName %>,
+                                                                        </div>
+                                                                        <div class="col-md-3 qty">
+                                                                            <%= order.products[i].quantity %>
+                                                                        </div>
+                                                                        <div class="col-md-5 amount text-end">
+                                                                            ₹ <%= order.products[i].price %>
+                                                                                <% totalSubTotal
+                                                                                    +=parseFloat(order.products[i].price
+                                                                                    * order.products[i].quantity) %>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <% } %>
+                                                    </div>
+
+                                                    <br><br><br><br><br>
+                                                    <div class="total text-end">
+                                                        <p class="extra-notes">
+                                                            <strong>Extra Notes</strong> Please send all items at the
+                                                            same time to the
+                                                            shipping address by next week. Thanks a lot.
+                                                        </p>
+                                                        <div class="field">
+                                                            Subtotal <span>₹ <%= totalSubTotal.toFixed(2) %> </span>
+                                                        </div>
+                                                        <div class="field">
+                                                            Shipping <span>₹0.00</span>
+                                                        </div>
+
+                                                        <div class="field grand-total">
+                                                            Total <span>₹ <%= totalSubTotal.toFixed(2) %></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="footer">
+                                                @evara
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- card-body end// -->
+                            </div> <!-- card end// -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <br><br><br><br><br><br><br>
+
+
+
+
+
+            <%- include("../layouts/userFooter.ejs") -%>
+                <!-- Add these in the head section to include the jsPDF and html2pdf libraries -->
+                <!-- Add this in the head section to include the jsPDF library -->
+                <!-- Add this in the head section to include the jsPDF and html2pdf libraries -->
+                <script src="https://unpkg.com/html2pdf.js"></script>
+
+                <!-- Your existing HTML content -->
+
+
+
+
+                <%- include("../layouts/footer.ejs") -%>

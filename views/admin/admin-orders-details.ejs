@@ -1,0 +1,331 @@
+<%- include("../layouts/adminHead.ejs") -%>
+
+    <body>
+        <div class="screen-overlay"></div>
+        <aside class="navbar-aside" id="offcanvas_aside">
+            <div class="aside-top" style="background-color:rgb(255, 250, 250);">
+                <a href="index.html" class="brand-wrap">
+                    <img src="assets/imgs/theme/logo.svg" class="logo" alt="Evara Dashboard">
+                </a>
+                <div>
+                    <button class="btn btn-icon btn-aside-minimize"> <i
+                            class="text-muted material-icons md-menu_open"></i> </button>
+                </div>
+            </div>
+            <%- include('../layouts/adminNavbar.ejs') -%>
+        </aside>
+        <main class="main-wrap">
+            <%- include('../layouts/adminHeaderBar.ejs') -%>
+
+                <section class="content-main">
+                    <div class="content-header">
+                        <div>
+                            <h2 class="content-title card-title">Order detail</h2>
+                            <p>Details for Order ID: <%= order._id %>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <header class="card-header">
+                            <div class="row align-items-center">
+                                <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
+                                    <span>
+                                        <i class="material-icons md-calendar_today"></i> <b>
+                                            <%= order.createdOn %>
+                                        </b>
+                                    </span> <br>
+                                    <small class="text-muted">Order ID: <%= order._id %></small>
+                                </div>
+
+                                <div class="col-lg-6 col-md-6 ms-auto text-md-end">
+                                    <form action="/admin/order-details?id=<%= order._id %>" method="post">
+                                        <select class="form-select d-inline-block mb-lg-0 mb-15 mw-200"
+                                            name="orderStatus">
+                                            <% if(order.status==='Delivered' ) { %>
+                                                <option value="Delivered" selected>Delivered</option>
+                                                <% } else if (order.status==='Cancelled' ) { %>
+                                                    <option value="Cancelled" selected>Cancelled</option>
+                                                    <% } else { %>
+                                                        <option value="Pending" <% if (order.status==='Pending' ) { %>
+                                                            selected <% } %>>Pending</option>
+                                                        <option value="Shipped" <% if (order.status==='Shipped' ) { %>
+                                                            selected <% } %>>Shipped</option>
+                                                        <option value="Processing" <% if (order.status==='Processing' )
+                                                            { %> selected <% } %>>Processing</option>
+                                                        <option value="Returned" <% if (order.status==='Returned' ) { %>
+                                                            selected <% } %>>Returned</option>
+                                                        <option value="Delivered" <% if (order.status==='Delivered' ) {
+                                                            %> selected <% } %>>Delivered</option>
+                                                        <option value="Cancelled" <% if (order.status==='Cancelled' ) {
+                                                            %> selected <% } %>>Cancelled</option>
+                                                        <% } %>
+                                        </select>
+                                        <button class="btn btn-primary" type="submit">Save</button>
+                                        <a class="btn btn-secondary print ms-2" href="#"><i
+                                                class="icon material-icons md-print"></i></a>
+                                    </form>
+                                </div>
+
+
+
+                        </header> <!-- card-header end// -->
+                        <div class="card-body">
+                            <div class="row mb-50 mt-20 order-info-wrap">
+                                <div class="col-md-4">
+                                    <article class="icontext align-items-start">
+                                        <span class="icon icon-sm rounded-circle bg-primary-light">
+                                            <i class="text-primary material-icons md-person"></i>
+                                        </span>
+                                        <div class="text">
+                                            <h6 class="mb-1">Customer</h6>
+                                            <p class="mb-1">
+                                                <%= order.user.name %> <br> <template class="__cf_email__"
+                                                        data-cfemail="e2838e879aa2879a838f928e87cc818d8f">[email&#160;protected]</template>
+                                                    <br>
+                                                    <%= order.user.mobile %><br>
+                                                        <%= order.user.email %>
+                                            </p>
+                                            <a href="#">View profile</a>
+                                        </div>
+                                    </article>
+                                </div> <!-- col// -->
+                                <div class="col-md-4">
+                                    <article class="icontext align-items-start">
+                                        <span class="icon icon-sm rounded-circle bg-primary-light">
+                                            <i class="text-primary material-icons md-local_shipping"></i>
+                                        </span>
+                                        <div class="text">
+                                            <h6 class="mb-1">Order info</h6>
+                                            <p class="mb-1">
+                                                Shipping: Fargo express <br> Pay method: <%= order.payment %> <br>
+                                                    Status: <%= order.payment %>
+                                                        <a href="#">Download info</a>
+                                        </div>
+                                    </article>
+                                </div> <!-- col// -->
+                                <div class="col-md-4">
+                                    <article class="icontext align-items-start">
+                                        <span class="icon icon-sm rounded-circle bg-primary-light">
+                                            <i class="text-primary material-icons md-place"></i>
+                                        </span>
+                                        <div class="text">
+                                            <h6 class="mb-1">Deliver to</h6>
+                                            <p class="mb-1">
+                                                <%= order.address.fullName %> <br>
+                                                    <%= order.address.addressLine %> <br>
+                                                        <%= order.address.pincode %><br>
+                                                            <%= order.address.mobile %>
+                                            </p>
+                                            <a href="#">View profile</a>
+                                        </div>
+                                    </article>
+                                </div> <!-- col// -->
+                            </div> <!-- row // -->
+                            <div class="row">
+                                <div class="col-lg-7">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th width="40%">Product</th>
+                                                    <th width="20%">Unit Price</th>
+                                                    <th width="20%">Quantity</th>
+
+                                                    <th width="20%">Total</th>
+                                                    <th width="20%">status</th>
+                                                    <th class="text-end">order action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Loop through order products -->
+                                                <% if (order && products && products.length> 0) { %>
+                                                    <% for (let i=0; i < products.length; i++) { %>
+                                                        <tr>
+                                                            <td class="align-middle">
+                                                                <a class="itemside" href="#">
+                                                                    <div class="left">
+                                                                        <!-- Assuming you have an 'image' property in the product schema -->
+                                                                        <img src="/admin-asset/productImage/<%= products[i].image[0].filename %>"
+                                                                            width="40" height="40" class="img-xs"
+                                                                            alt="Item">
+                                                                    </div>
+                                                                    <div class="info">
+                                                                        <%= products[i].productName %>
+                                                                            <!-- Assuming 'productName' is a property of your product schema -->
+                                                                    </div>
+                                                                </a>
+                                                            </td>
+                                                            <td class="align-middle">
+                                                                $<%=order.products[i].price %>
+                                                            </td>
+                                                            <td class="align-middle">
+                                                                <%= order.products[i].quantity %>
+                                                            </td>
+
+
+                                                            <td class="text-end align-middle">
+                                                                $<%= (order.products[i].price *
+                                                                    order.products[i].quantity).toFixed(2) %>
+                                                            </td>
+                                                            <td class="align-middle">
+                                                                <%= order.products[i].status %>
+
+                                                            </td>
+
+                                                            <td class="align-middle">
+
+                                                                <% if (order.products[i].status==="Delivered" ) { %>
+                                                                    completed
+                                                                    <% } else { %>
+                                                                        <% if (order.products[i].status==="Cancelled" )
+                                                                            { %>
+                                                                            Cancelled
+                                                                            <% } else { %>
+                                                                                <button class="btn btn-danger"
+                                                                                    onclick="confirmDelete('<%= order._id %>','<%= products[i]._id %>')">Cancel</button>
+                                                                                <% } %>
+                                                                                    <% } %>
+
+                                                            </td>
+                                                        </tr>
+                                                        <% } %>
+                                                            <% } else { %>
+                                                                <tr>
+                                                                    <td colspan="5">No products in this order</td>
+                                                                </tr>
+                                                                <% } %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-lg-1"></div>
+                                <div class="col-lg-4">
+                                    <div class="box shadow-sm bg-light">
+                                        <h6 class="mb-15">Payment info</h6>
+                                        <p>
+                                            <img src="assets/imgs/card-brands/2.png" class="border" height="20"> Master
+                                            Card **** **** 4768 <br>
+                                            Business name: Grand Market LLC <br>
+                                            Phone: +1 (800) 555-154-52
+                                        </p>
+                                    </div>
+                                    <div class="h-25 pt-4">
+                                        <div class="mb-3">
+                                            <label>Notes</label>
+                                            <textarea class="form-control" name="notes" id="notes"
+                                                placeholder="Type some note"></textarea>
+                                        </div>
+
+                                    </div>
+                                </div> <!-- col// -->
+                            </div>
+                        </div> <!-- card-body end// -->
+                    </div> <!-- card end// -->
+                </section> <!-- content-main end// -->
+                <script>
+                    function confirmDelete(orderId, pId) {
+                        // Set up a Bootstrap modal for confirmation
+                        const confirmationModal = new bootstrap.Modal(document.getElementById("confirmationModal"), {
+                            backdrop: "static", // Prevent closing on click outside the modal
+                            keyboard: false, // Prevent closing with keyboard Esc key
+                        });
+
+                        // Display the modal
+                        confirmationModal.show();
+
+                        // Set up the cancel button's click event to send a PATCH request
+                        const cancelButton = document.getElementById("cancelButton");
+                        cancelButton.addEventListener("click", async () => {
+                            try {
+                                // Send a PATCH request using the Fetch API
+                                const response = await fetch(`/admin/adminCancelOrder/${orderId}/${pId}`, {
+                                    method: "PATCH",
+                                });
+
+                                if (response) {
+                                    // Check if the server redirected
+
+                                    // Redirect to the provided URL
+
+
+                                    confirmationModal.hide();
+
+                                    window.location.reload();
+
+                                } else {
+                                    // Handle error response
+                                    console.error("Error cancelling order:", response.statusText);
+                                }
+
+                            } catch (error) {
+                                console.error("Error cancelling order:", error);
+                            }
+                        });
+                    }
+                </script>
+
+                <!-- Modal -->
+                <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Confirm Cancel Order</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to cancel this order?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button id="cancelButton" type="button" class="btn btn-danger">Confirm Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Footer Section -->
+                <footer class="main-footer font-xs">
+                    <div class="row pb-30 pt-15">
+                        <div class="col-sm-6">
+                            <script data-cfasync="false"
+                                src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+                            <script>
+                                document.write(new Date().getFullYear())
+                            </script> ©, Evara - HTML Ecommerce Template.
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="text-sm-end">
+                                All rights reserved
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+
+        </main>
+
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <!-- Bootstrap JavaScript bundle -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Additional scripts -->
+        <script src="assets/js/vendors/select2.min.js"></script>
+        <script src="assets/js/vendors/perfect-scrollbar.js"></script>
+        <script src="assets/js/vendors/jquery.fullscreen.min.js"></script>
+
+        <!-- Main Script -->
+        <script src="assets/js/main.js" type="text/javascript"></script>
+
+        <!-- SweetAlert2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <!-- Footer Script -->
+        <%- include("../layouts/footer.ejs") -%>
+    </body>
+
+    </html>

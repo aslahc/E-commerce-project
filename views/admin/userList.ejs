@@ -1,0 +1,166 @@
+<%- include('../layouts/adminHead.ejs') -%>
+
+    <body>
+        <div class="screen-overlay"></div>
+        <aside class="navbar-aside" id="offcanvas_aside">
+            <div class="aside-top" style="background-color:rgb(255, 250, 250);">
+                <a href="index.html" class="brand-wrap">
+                    <img src="/admin-assets/imgs/theme/logo.png" class="logo" alt="Evara Dashboard">
+                </a>
+                <div>
+                    <button class="btn btn-icon btn-aside-minimize"> <i
+                            class="text-muted material-icons md-menu_open"></i> </button>
+                </div>
+            </div>
+            <%- include('../layouts/adminNavbar.ejs') -%>
+        </aside>
+        <main class="main-wrap">
+            <%- include('../layouts/adminHeaderBar.ejs') -%>
+                <section class="content-main">
+                    <div class="content-header">
+                        <div>
+                            <h2 class="content-title card-title">Users List</h2>
+
+                        </div>
+                        <div>
+                            <form action="/admin/searchUser" method="get">
+                                <button class="btn btn-sm" type="submit">Search</button>
+                                <input name="search" type="text" placeholder="Search user" class="form-control"
+                                    style="border-color: rgb(142, 142, 142);" value="<%= search %>">
+                            </form>
+
+
+
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <article class="card-body">
+
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Mobile</th>
+                                        <th>Email</th>
+
+
+                                        <!-- <th>Edit</th> -->
+                                        <!-- <th>Delete</th> -->
+                                        <th>block/unblock</th>
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <form action="/admin/users">
+                                        <% for(let i=0; i < users.length; i++) { %>
+                                            <tr>
+                                                <td>
+                                                    <%= users[i].name %>
+                                                </td>
+                                                <td>
+                                                    <%= users[i].mobile %>
+                                                </td>
+                                                <td>
+                                                    <%= users[i].email %>
+                                                </td>
+                                                <!-- <td> <a href="" class="btn btn-sm font-sm rounded btn-brand">
+                                        <i class="material-icons md-edit"></i> 
+                                        Edit
+                                    </a></td>
+                                <td><a href="#" class="btn btn-sm font-sm btn-light rounded">
+                                    <i class="material-icons md-delete_forever"></i> Delete
+                                </a>    </td> -->
+
+                                                <td>
+
+                                                    <% if (users[i].is_block) { %>
+
+                                                        <button type="submit" class="btn btn-success"> <a
+                                                                onclick="updateUserStatus('<%= users[i]._id %>')">
+                                                                </i>Un Block</a></button>
+
+                                                        <% } else { %>
+                                                            <button type="submit" class="btn btn-danger"> <a
+                                                                    onclick="updateUserStatus('<%= users[i]._id %>')">
+                                                                    </i>Block</a></button>
+
+
+                                                            <% } %>
+
+
+                                                </td>
+
+
+
+
+                                            </tr>
+                                            <% } %>
+                                    </form>
+                                </tbody>
+
+                            </table>
+
+                            <canvas id="myChart" height="120px"></canvas>
+                        </article>
+                    </div>
+                    <!-- card end// -->
+
+                    <div class="pagination-area mt-30 mb-50">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-start">
+                                <% for (let i=0; i < totalNumberOfPages; i++) { %>
+                                    <li class="page-item <%= i == page ? 'active' : '' %>">
+                                        <a class="page-link" href="/admin/users?page=<%= i %>&search=<%= search %>">
+                                            <%= i + 1 %>
+                                        </a>
+                                    </li>
+                                    <% } %>
+                            </ul>
+                        </nav>
+                    </div>
+
+                </section> <!-- content-main end// -->
+                <footer class="main-footer font-xs">
+                    <div class="row pb-30 pt-15">
+                        <div class="col-sm-6">
+                            <script>
+                                document.write(new Date().getFullYear())
+                            </script> ©, Evara - HTML Ecommerce Template .
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="text-sm-end">
+                                All rights reserved
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+        </main>
+
+
+
+
+
+
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+        <script src="/admin-assets/js/userBlock.js"> </script>
+
+
+
+        <script src="/admin-assets/js/vendors/jquery-3.6.0.min.js"></script>
+        <script src="/admin-assets/js/vendors/bootstrap.bundle.min.js"></script>
+        <script src="/admin-assets/js/vendors/select2.min.js"></script>
+        <script src="/admin-assets/js/vendors/perfect-scrollbar.js"></script>
+        <script src="/admin-assets/js/vendors/jquery.fullscreen.min.js"></script>
+        <!-- Main Script -->
+        <script src="/admin-assets/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+        <%- include('../layouts/adminFooter.ejs') -%>

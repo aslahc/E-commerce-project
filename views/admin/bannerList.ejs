@@ -1,0 +1,147 @@
+<%- include('../layouts/adminHead.ejs') -%>
+
+    <body>
+        <div class="screen-overlay"></div>
+        <aside class="navbar-aside" id="offcanvas_aside">
+            <div class="aside-top" style="background-color:rgb(255, 250, 250);">
+                <a href="index.html" class="brand-wrap">
+                    <img src="/admin-assets/imgs/theme/logo.png" class="logo" alt="Evara Dashboard">
+                </a>
+                <div>
+                    <button class="btn btn-icon btn-aside-minimize"> <i
+                            class="text-muted material-icons md-menu_open"></i> </button>
+                </div>
+            </div>
+            <%- include('../layouts/adminNavbar.ejs') -%>
+        </aside>
+        <main class="main-wrap">
+            <%- include('../layouts/adminHeaderBar.ejs') -%>
+
+                <section class="content-main">
+                    <div class="content-header">
+                        <div>
+                            <h2 class="content-title card-title">Banner</h2>
+                            <p></p>
+                        </div>
+                        <div>
+
+                            <a href="/api/admin/addNewBanner" class="btn btn-primary btn-sm rounded">Create new</a>
+                        </div>
+                    </div>
+                    <header class="card card-body mb-4">
+                        <div class="row gx-3">
+                            <div class="col-lg-4 col-md-6 me-auto">
+                                <input type="text" placeholder="Search..." class="form-control">
+                            </div>
+                            <div class="col-lg-2 col-6 col-md-3">
+                                <select class="form-select">
+                                    <option>All category</option>
+                                    <option>Electronics</option>
+                                    <option>Clothings</option>
+                                    <option>Something else</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-2 col-6 col-md-3">
+                                <select class="form-select">
+                                    <option>Latest added</option>
+                                    <option>Cheap first</option>
+                                    <option>Most viewed</option>
+                                </select>
+                            </div>
+                        </div>
+                    </header> <!-- card-header end// -->
+                    <div class="row">
+                        <% if (banner.length> 0) { %>
+                            <% for (let i=0; i < banner.length; i++) { %>
+
+
+
+                                <div class="col-xl-5 col-lg-5 col-md-5">
+                                    <div class="card card-product-grid">
+                                        <a href="#" class="img-wrap"> <img
+                                                src="/admin-asset/productImage/<%=banner[i].image[0].filename %>"
+                                                alt="Product" style="height: 14rem;"> </a>
+                                        <div class="info-wrap">
+                                            <div class="dropdown float-end">
+                                                <a href="/admin/editBanner?id=<%= banner[i]._id %>"
+                                                    class="btn btn-sm btn-brand rounded">
+                                                    <i class="material-icons md-edit mr-5"></i>Edit
+                                                </a>
+                                                <a href="#" onclick="deleteItem('<%= banner[i]._id %>')"
+                                                    class="btn btn-sm font-sm btn-light rounded">
+                                                    <i class="material-icons md-delete_forever"></i> Delete
+                                                </a>
+                                            </div>
+                                            <a href="#" class="title"></a>
+                                            <div class="price mt-1">
+                                                <%= banner[i].title %>
+                                            </div>
+
+                                            <p>
+                                                <%= banner[i].discription %>
+                                            </p><!-- price-wrap.// -->
+                                        </div>
+                                    </div> <!-- card-product  end// -->
+                                </div> <!-- col.// -->
+
+                                <% } %>
+                                    <% } else { %>
+                                        <tr>
+                                            <td colspan="2">Banner not found</td>
+                                        </tr>
+                                        <% } %>
+
+
+
+
+
+                    </div> <!-- row.// -->
+                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+                    <script>
+                        function deleteItem(itemId) {
+                            // Use SweetAlert for confirmation
+                            Swal.fire({
+                                title: 'Are you sure?',
+                                text: 'You won\'t be able to revert this!',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#d33',
+                                cancelButtonColor: '#3085d6',
+                                confirmButtonText: 'Yes, delete it!'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    // If confirmed, send a Fetch request for deletion
+                                    fetch('/admin/deleteBanner', {
+                                        method: 'delete', // or 'DELETE' depending on your server implementation
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        },
+                                        body: JSON.stringify({ id: itemId }),
+                                    })
+                                        .then(response => {
+                                            if (response) {
+                                                // Optionally, handle the response
+
+                                                window.location.reload();
+                                            } else {
+                                                console.error('Failed to delete item');
+                                            }
+                                        })
+                                        .catch(error => {
+                                            console.error('Error during fetch:', error);
+                                        });
+                                } else {
+                                    console.log("Deletion canceled!");
+                                }
+                            });
+                        }
+                    </script>
+
+
+
+
+                    <%- include('../layouts/adminFooter.ejs') -%>
+    </body>
+
+    </html>
