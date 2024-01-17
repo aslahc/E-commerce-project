@@ -340,12 +340,12 @@
                         <div class="home-slide-cover mt-30">
                             <div class="hero-slider-1 style-4 dot-style-1 dot-style-1-position-1">
                                 <% console.log("this is banner " + banner) %>
-                          <% for (let i = 0; i < banner.length; i++) { %>
+                          <% for (let i = 0; i < 2; i++) { %>
                             <div class=" single-hero-slider single-animation-wrap">
                                     <div class="container">
                                         <div class="row justify-content-center slider-animated-1">
                                             <div class="col-lg-12 col-md-12 slider-image"
-                                                style="background-image: url('/admin-asset/productImage/<%= banner[i].image[0].filename %>'); background-size: cover; background-position: center; height: 550px;">
+                                                style="background-image: url('/admin-asset/productImage/<%= banner[i].image[0].filename %>'); background-size: cover; background-position: center; height: 600px;">
                                                 <div class="hero-slider-content-2 text-center align-items-center">
                                                     <br /><br /><br />
                                                     <h2 class="animated fw-900"
@@ -358,9 +358,12 @@
                                                         <%= banner[i].description %>
                                                     </p>
                                                     <br /><br /><br /><br /><br /><br />
-                                                    <a class="animated btn btn-brush btn-brush-3"
+                                                    <a class="animated btn btn-brush btn-brush-3 "
                                                         href="<%= banner[i].link %>" tabindex="0">Shop Now</a>
+                                                    <br>
+                                                    <br>
                                                 </div>
+                                                <br>
                                             </div>
                                         </div>
                                     </div>
@@ -560,17 +563,17 @@
                             <!-- First Banner -->
                             <div class="col-lg-6 deal-co">
                                 <div class="deal wow fadeIn animated mb-md-4 mb-sm-4 mb-lg-0"
-                                    style="background-image: url('/admin-asset/productImage/<%=banner[1].image[0].filename %>');">
+                                    style="background-image: url('/admin-asset/productImage/<%=banner[2].image[0].filename %>');">
                                     <div class="deal-top">
                                         <h2 class="text-brand">
-                                            <%= banner[1].title %>
+                                            <%= banner[2].title %>
                                         </h2>
                                     </div>
                                     <div class="deal-content">
-                                        <h6 class="product-title"><a href="<%= banner[1].link %>">
-                                                <%= banner[1].description %>
+                                        <h6 class="product-title"><a href="<%= banner[2].link %>">
+                                                <%= banner[2].description %>
                                             </a></h6>
-                                        <a href="<%= banner[1].link %>" class="btn hover-up">Shop Now <i
+                                        <a href="<%= banner[2].link %>" class="btn hover-up">Shop Now <i
                                                 class="fi-rs-arrow-right"></i></a>
                                     </div>
                                 </div>
@@ -579,20 +582,20 @@
                             <!-- Second Banner -->
                             <div class="col-lg-6 deal-co">
                                 <div class="deal wow fadeIn animated"
-                                    style="background-image: url('/admin-asset/productImage/<%=banner[0].image[0].filename %>');">
+                                    style="background-image: url('/admin-asset/productImage/<%=banner[3].image[0].filename %>');">
                                     <div class="deal-top">
                                         <h2 class="text-success">
-                                            <%= banner[0].title %>
+                                            <%= banner[3].title %>
                                         </h2>
                                     </div>
                                     <div class="deal-content">
-                                        <h6 class="product-title"><a href="<%= banner[0].link %>">
-                                                <%= banner[0].description %>
+                                        <h6 class="product-title"><a href="<%= banner[3].link %>">
+                                                <%= banner[3].description %>
                                             </a></h6>
                                         <div class="deal-bottom">
                                             <p>Hurry Up! Offer Ends In:</p>
 
-                                            <a href="<%= banner[1].link %>" class="btn hover-up">Shop Now <i
+                                            <a href="<%= banner[3].link %>" class="btn hover-up">Shop Now <i
                                                     class="fi-rs-arrow-right"></i></a>
                                         </div>
                                     </div>

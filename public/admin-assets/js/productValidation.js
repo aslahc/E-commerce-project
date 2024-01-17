@@ -6,7 +6,7 @@ function validate() {
   const size = document.getElementById("product_size");
   const description = document.getElementById("prod_description");
   const stock = document.getElementById("prod_stock");
-
+  const image = document.getElementById("imageInput");
   // Error feilds
   const productNameError = document.getElementById("nameError");
   const brandError = document.getElementById("randError");
@@ -15,7 +15,7 @@ function validate() {
   const sizeError = document.getElementById("sizeError");
   const descriptionError = document.getElementById("descError");
   const stockError = document.getElementById("sotckError");
-
+  const imageError = document.getElementById("imgError");
   // Regex
   const productNameRegex = /^[a-zA-Z0-9\s]+$/;
   const brandRegex = /^[a-zA-Z\s]+$/;
@@ -24,7 +24,7 @@ function validate() {
   const sizeRegex = /^(S|M|XL|XXL)$/;
   const descriptionRegex = /^.{11,}$/;
   const stockrRegex = /^[0-9]+$/;
-
+  const imageRegex = /\.(jpg|jpeg|png|gif|webp)$/i;
   //name feild
   if (productName.value.trim() === "") {
     productNameError.innerHTML = "Product name is required";
@@ -103,6 +103,26 @@ function validate() {
     }, 5000);
     return false;
   }
+
+
+  if (image.value.trim() === "") {
+    imageError.innerHTML = "Image field can't be empty";
+    setTimeout(() => {
+      stockError.innerHTML = "";
+    }, 5000);
+    return false;
+  }
+  if (!imageRegex.test(image.value)) {
+    imageError.innerHTML = "Invalid image path";
+    setTimeout(() => {
+      imageError.innerHTML = "";
+    }, 5000);
+    return false;
+  }
+
+
+
+
   if (stock.value.trim() === "") {
     stockError.innerHTML = "Stock quantity is required";
     setTimeout(() => {
