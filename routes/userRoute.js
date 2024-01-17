@@ -49,12 +49,16 @@ user_route.get("/productDetails",auth.checkBlockedStatus, productController.prod
 user_route.post("/productDetails/:id",auth.checkBlockedStatus, cartController.addToCart);
 user_route.get("/shopList",auth.checkBlockedStatus, productController.shopList);
 
+
+
 // Cart routes
 user_route.post("/addCart-icon",auth.checkBlockedStatus, cartController.addCartIcon);
 user_route.get("/cart",auth.checkBlockedStatus, cartController.loadCart);
 user_route.delete("/delete-cartItem",auth.checkBlockedStatus, cartController.deleteCartItem);
 user_route.post("/cart/qtyInc",auth.checkBlockedStatus, cartController.qtyInc);
 user_route.post("/cart/qtyDec",auth.checkBlockedStatus, cartController.qtyDec);
+
+
 
 // Checkout and profile routes
 user_route.get("/checkout",auth.checkBlockedStatus, auth.isLogin,auth.checkBlockedStatus, cartController.checkoutPage);
@@ -76,6 +80,9 @@ user_route.post(
 user_route.get("/editProfile", auth.isLogin,auth.checkBlockedStatus, addressController.editProfile);
 user_route.post("/editProfile", auth.isLogin,auth.checkBlockedStatus, addressController.updateUserData);
 
+
+
+
 // Order routes
 user_route.post("/orderPlaced", auth.isLogin,auth.checkBlockedStatus, orderController.orderComplete);
 user_route.get("/order", auth.isLogin,auth.checkBlockedStatus, orderController.orderCompleteLoad);
@@ -86,13 +93,25 @@ user_route.put(
   auth.checkBlockedStatus,
   orderController.cancelOrder
 );
+user_route.post(
+  "/order-return/:orderId/:productId",
+  auth.isLogin,
+  auth.checkBlockedStatus,
+  orderController.returnOrder
+);
+
+
 
 // Search route
 user_route.get("/search", auth.checkBlockedStatus,productController.shopList);
 
+
+
 // Invoice routes
 user_route.get("/invoice", auth.isLogin,auth.checkBlockedStatus, orderController.invoice);
 user_route.get("/saveinvoice", auth.isLogin,auth.checkBlockedStatus, orderController.saveInvoice);
+
+
 
 // Wishlist routes
 user_route.get("/wishlist", auth.isLogin,auth.checkBlockedStatus, wishlistController.loadWishlist);
@@ -110,12 +129,17 @@ user_route.delete(
   wishlistController.deleteWishlist
 );
 
+
+
 // Coupon routes
 user_route.post("/addcouponcode", auth.isLogin,auth.checkBlockedStatus, couponController.addCouponCode);
 user_route.post("/remove-coupon", auth.isLogin,auth.checkBlockedStatus, couponController.removeCoupon);
 
+
+
 // about page
 user_route.get("/about",auth.checkBlockedStatus, userController.aboutPage);
+
 
 // forget password
 

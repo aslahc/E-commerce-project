@@ -8,7 +8,7 @@ const User = require("../models/userModel");
 const Coupon = require("../models/couponModel");
 const mongodb = require("mongodb");
 const Razorpay = require("razorpay");
-const easyinvoice = require("easyinvoice");
+const easyinvoice = require("easyinvoice"); 
 const { Readable } = require("stream");
 const PDFDocument = require("pdfkit");
 const fs = require("fs");
@@ -18,6 +18,9 @@ const instance = new Razorpay({
   key_secret: process.env.RAZORPAY_SECRET_KEY,
 });
 
+
+
+// order succesfull page load 
 const orderCompleteLoad = async (req, res) => {
   try {
     const loggedIn = !!req.session.user_id;
@@ -111,6 +114,9 @@ const orderCompleteLoad = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
+
+// order confirmation  
 
 const orderComplete = async (req, res) => {
   try {
@@ -215,6 +221,9 @@ const generateOrderRazorpay = (orderId, total) => {
   });
 };
 
+
+// order details in user side 
+
 const orderDetails = async (req, res) => {
   try {
     const orderId = req.query.id;
@@ -255,6 +264,9 @@ const orderDetails = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
+
+// cancel oder in user side 
 const cancelOrder = async (req, res) => {
   try {
     const orderId = req.params.orderId;
@@ -324,20 +336,45 @@ const cancelOrder = async (req, res) => {
   }
 };
 
+
+// admin side order management page 
 const adminOrderManagement = async (req, res) => {
   try {
-    const orders = await Order.find({})
-      .populate("user")
-      .sort({ createdOn: -1 });
 
-    res.status(200).render("adminOrders", {
-      title: "Admin Orders",
-      orders,
-    });
+      const page = parseInt(req.query.page) || 1;
+      const perPage =req.query.OrderPerPage||20; // Adjust the number of orders per page as needed
+      const selectedCategory = req.query.status; // Get the selected category from the query parameters
+
+      let query = {}; // Define an empty query object
+
+      // If a category is selected, add it to the query
+      if (selectedCategory) {
+        
+          query.status= selectedCategory;
+      }
+     console.log( query )
+      const totalOrders = await Order.countDocuments(query);
+      const totalPages = Math.ceil(totalOrders / perPage);
+
+      const orders = await Order.find(query)
+          .populate("user")
+          .sort({ createdOn: -1 })
+          .skip((page - 1) * perPage)
+          .limit(perPage);
+
+      res.status(200).render("adminOrders", {
+          title: "Admin Orders",
+          orders,
+          currentPage: page,
+          totalPages: totalPages,
+      });
   } catch (error) {
-    res.status(500).send("Internal Server Error. Please try again later.");
+      res.status(500).send("Internal Server Error. Please try again later.");
   }
 };
+
+// admin side order details 
+
 
 const adminOrderDetails = async (req, res) => {
   try {
@@ -378,6 +415,10 @@ const adminOrderDetails = async (req, res) => {
     res.status(500).send("Internal Server Error. Please try again later.");
   }
 };
+
+
+
+// admin side order cancel 
 
 const adminCancelOrder = async (req, res) => {
   try {
@@ -420,6 +461,7 @@ const adminCancelOrder = async (req, res) => {
   }
 };
 
+// admin order status change 
 
 const adminStatusChange = async (req, res) => {
   try {
@@ -442,6 +484,9 @@ const adminStatusChange = async (req, res) => {
     res.status(500).send("Internal Server Error. Please try again later.");
   }
 };
+
+// user side invoice download 
+
 
 const invoice = async (req, res) => {
   try {
@@ -482,6 +527,9 @@ const invoice = async (req, res) => {
     res.status(500);
   }
 };
+
+
+// user download  invoice 
 
 const saveInvoice = async (req, res) => {
   try {
@@ -569,6 +617,9 @@ const saveInvoice = async (req, res) => {
   }
 };
 
+
+//admin  saleReport page 
+
 const saleReportPage = async (req, res) => {
   try {
     const { date } = req.query;
@@ -599,7 +650,7 @@ const saleReportPage = async (req, res) => {
 };
 
 
-
+// saleReport  downlaod pdf 
 const downloadPdf = async (req, res) => {
   try {
     const { date } = req.query;
@@ -701,6 +752,9 @@ const downloadPdf = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+// download saleReport in excel 
+
 const downloadExcel = async (req, res) => {
   try {
     const { date } = req.query;
@@ -781,8 +835,7 @@ const downloadExcel = async (req, res) => {
 
 
 
-/// SALE CHART
-// SALE CHART
+
 // SALE CHART
 const saleChart = async (req, res) => {
   try {
@@ -800,18 +853,21 @@ const saleChart = async (req, res) => {
         dateFormat = "%Y";
         groupByFormat = { $dateToString: { format: "%Y", date: "$createdOn" } };
         break;
+
       case "monthly":
-        dateFormat = "%B %Y";
+        dateFormat = "%m-%Y"; // Use %m for numeric month
         groupByFormat = {
-          $dateToString: { format: "%B %Y", date: "$createdOn" },
+          $dateToString: { format: "%m-%Y", date: "$createdOn" },
         };
         break;
+
       case "daily":
         dateFormat = "%Y-%m-%d";
         groupByFormat = {
           $dateToString: { format: "%Y-%m-%d", date: "$createdOn" },
         };
         break;
+
       default:
         console.error("Error: Invalid time interval");
         return res.status(400).json({ error: "Invalid time interval" });
@@ -827,7 +883,20 @@ const saleChart = async (req, res) => {
       { $sort: { _id: 1 } },
     ]);
 
-    const labels = salesData.map((item) => item._id);
+    // Map numeric months to month names
+    const monthNames = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+
+    const labels = salesData.map((item) => {
+      if (interval === "monthly") {
+        const [month, year] = item._id.split('-');
+        return `${monthNames[parseInt(month) - 1]} ${year}`;
+      }
+      return item._id; // For other intervals, keep the original value
+    });
+
     const values = salesData.map((item) => item.totalSales);
     console.log(labels, values);
 
@@ -837,6 +906,73 @@ const saleChart = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+// return order function 
+
+const returnOrder = async (req, res) => {
+  try {
+    console.log("Entering returnOrder");
+
+    const { productId, orderId } = req.params;
+    console.log("Received parameters: productId =", productId, ", orderId =", orderId);
+
+    const productStatus = "Returned";
+
+    const updatedOrder = await Order.updateOne(
+      { _id: orderId, "products._id": productId },
+      { $set: { "products.$.status": productStatus } }
+    );
+
+    console.log("Updated Order:", updatedOrder);
+    console.log("A")
+    if (updatedOrder) {
+      console.log("Entering refund amount calculation");
+
+      const order = await Order.findById(orderId);
+      const canceledProduct = order.products.find(
+        (product) => product._id.toString() === productId
+      );
+      console.log("b")
+
+      if (canceledProduct) {
+    console.log("c")
+
+        const productQuantity = canceledProduct.quantity;
+        const refundAmount = canceledProduct.price * productQuantity;
+
+        const user_id = req.session.user_id;
+
+        const updatedWallet = await Wallet.findOneAndUpdate(
+          { user_id: user_id },
+          {
+            $inc: { balance: refundAmount },
+            $push: {
+              transactions: {
+                amount: refundAmount,
+                reason: "return order refund",
+                transactionType: "credit",
+                date: new Date(),
+              },
+            },
+          },
+          { new: true }
+        );
+
+        const updateStock = await Products.findByIdAndUpdate(canceledProduct.product, {
+          $inc: { stock: productQuantity },
+        });
+
+        console.log("Success! Redirecting to /orderDetails");
+        res.status(200).json("/orderDetails");
+      }
+    }
+  } catch (error) {
+    console.error("Error in returnOrder:", error.message);
+    res.status(500).json("Internal Server Error");
+  }
+};
+
+
 
 module.exports = {
   orderComplete,
@@ -853,4 +989,5 @@ module.exports = {
   downloadPdf,
   downloadExcel,
   saleChart,
+  returnOrder,
 };

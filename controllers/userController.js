@@ -9,6 +9,8 @@ const { bannerEdit } = require("./bannerController");
 const Banner = require("../models/bannerModel");
 require("dotenv").config({ path: "./config/.env" });
 
+
+// load register page 
 const loadRegister = async (req, res) => {
   try {
     const loggedIn = req.session.user_id ? true : false;
@@ -25,6 +27,9 @@ const loadRegister = async (req, res) => {
     handleServerError(res, error, "Error loading register page");
   }
 };
+
+
+// save user details into database and send otp into user email 
 
 const insertUser = async (req, res) => {
   try {
@@ -52,6 +57,9 @@ const insertUser = async (req, res) => {
   }
 };
 
+
+// user resend otp 
+
 const resendOtp = async (req, res) => {
   try {
     const { name, email, password, mobile } = req.session.tempData;
@@ -60,6 +68,9 @@ const resendOtp = async (req, res) => {
     handleServerError(res, error);
   }
 };
+
+
+// otp verification page load
 
 const verifyPageLoad = async (req, res) => {
   try {
@@ -103,6 +114,8 @@ const emailVerification = async (email) => {
   }
 };
 
+
+// check otp is correct and save user details in database
 const confirmOtp = async (req, res) => {
   try {
     let wallet; // Declare wallet variable
@@ -178,6 +191,9 @@ const confirmOtp = async (req, res) => {
   }
 };
 
+// login page load 
+
+
 const loginLoad = async (req, res) => {
   try {
     const loggedIn = req.session.user_id ? true : false;
@@ -190,6 +206,9 @@ const loginLoad = async (req, res) => {
     handleServerError(res, error, "Error loading user login page");
   }
 };
+
+
+// verify  login 
 
 const verifyLogin = async (req, res) => {
   try {
@@ -242,6 +261,8 @@ const verifyLogin = async (req, res) => {
   }
 };
 
+
+// lode home 
 const loadHome = async (req, res) => {
   try {
     
@@ -266,6 +287,7 @@ const loadHome = async (req, res) => {
   }
 };
 
+// user logout ]
 const userLogout = async (req, res) => {
   try {
     req.session.destroy((err) => {
@@ -286,6 +308,9 @@ const handleServerError = (res, error, message = "Internal Server Error") => {
   res.status(500).send(message);
 };
 
+
+// about page 
+
 const aboutPage = async (req, res) => {
   try {
     const loggedIn = req.session.user_id ? true : false;
@@ -300,6 +325,8 @@ const aboutPage = async (req, res) => {
   }
 };
 
+// forget password 
+
 const forgetPassEmailVerifyPageLoad = async (req, res) => {
   try {
     const loggedIn = req.session.user_id ? true : false;
@@ -309,6 +336,9 @@ const forgetPassEmailVerifyPageLoad = async (req, res) => {
     console.log(error.message);
   }
 };
+
+
+// verify email for change password 
 
 const verifyEmail = async (req, res) => {
   try {
@@ -336,6 +366,9 @@ const verifyEmail = async (req, res) => {
   }
 };
 
+// forget password otp verification pae load 
+
+
 const forgetPassVerifyOtp = async (req, res) => {
   try {
     const loggedIn = req.session.user_id ? true : false;
@@ -345,6 +378,8 @@ const forgetPassVerifyOtp = async (req, res) => {
     res.status(500).send("invalid server error");
   }
 };
+
+// check otp to change password 
 
 const verifyOtp = async (req, res) => {
   try {
@@ -367,6 +402,9 @@ const verifyOtp = async (req, res) => {
     res.status(500).send("invalid server error");
   }
 };
+
+// change password 
+
 
 const changePassword = async (req, res) => {
   try {

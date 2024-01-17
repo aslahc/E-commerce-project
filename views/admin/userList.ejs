@@ -2,16 +2,8 @@
 
     <body>
         <div class="screen-overlay"></div>
-        <aside class="navbar-aside" id="offcanvas_aside">
-            <div class="aside-top" style="background-color:rgb(255, 250, 250);">
-                <a href="index.html" class="brand-wrap">
-                    <img src="/admin-assets/imgs/theme/logo.png" class="logo" alt="Evara Dashboard">
-                </a>
-                <div>
-                    <button class="btn btn-icon btn-aside-minimize"> <i
-                            class="text-muted material-icons md-menu_open"></i> </button>
-                </div>
-            </div>
+        <aside class="navbar-aside" id="offcanvas_aside" style="background-color:rgb(255, 250, 250);">
+
             <%- include('../layouts/adminNavbar.ejs') -%>
         </aside>
         <main class="main-wrap">
@@ -73,24 +65,14 @@
                                     <i class="material-icons md-delete_forever"></i> Delete
                                 </a>    </td> -->
 
-                                                <td>
+                                                <td id="<%= users[i]._id %>">
+                                                    <a onclick="blockOrUnBlockUser('<%= users[i]._id %>')"
+                                                        class="btn btn-xs">
+                                                        <%= users[i].is_block ? "UnBlock" : "Block" %>
+                                                    </a>
+                                                              
+                                                </td>*
 
-                                                    <% if (users[i].is_block) { %>
-
-                                                        <button type="submit" class="btn btn-success"> <a
-                                                                onclick="updateUserStatus('<%= users[i]._id %>')">
-                                                                </i>Un Block</a></button>
-
-                                                        <% } else { %>
-                                                            <button type="submit" class="btn btn-danger"> <a
-                                                                    onclick="updateUserStatus('<%= users[i]._id %>')">
-                                                                    </i>Block</a></button>
-
-
-                                                            <% } %>
-
-
-                                                </td>
 
 
 
@@ -127,7 +109,7 @@
                         <div class="col-sm-6">
                             <script>
                                 document.write(new Date().getFullYear())
-                            </script> ©, Evara - HTML Ecommerce Template .
+                            </script> ©, flock
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end">

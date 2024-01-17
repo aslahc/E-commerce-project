@@ -2,16 +2,7 @@
 
     <body>
         <div class="screen-overlay"></div>
-        <aside class="navbar-aside" id="offcanvas_aside">
-            <div class="aside-top" style="background-color:rgb(255, 250, 250);">
-                <a href="index.html" class="brand-wrap">
-                    <img src="/admin-assets/imgs/theme/logo.png" class="logo" alt="Evara Dashboard">
-                </a>
-                <div>
-                    <button class="btn btn-icon btn-aside-minimize"> <i
-                            class="text-muted material-icons md-menu_open"></i> </button>
-                </div>
-            </div>
+        <aside class="navbar-aside" id="offcanvas_aside" style="background-color:rgb(255, 250, 250);">
             <%- include('../layouts/adminNavbar.ejs') -%>
         </aside>
         <main class="main-wrap">
@@ -20,13 +11,12 @@
                 <section class="content-main">
                     <div class="content-header">
                         <div>
-                            <h2 class="content-title card-title">Products grid</h2>
-                            <p>Lorem ipsum dolor sit amet.</p>
+                            <h2 class="content-title card-title">Products list</h2>
+
                         </div>
                         <div>
-                            <a href="#" class="btn btn-light rounded font-md">Export</a>
-                            <a href="#" class="btn btn-light rounded  font-md">Import</a>
-                            <a href="#" class="btn btn-primary btn-sm rounded">creat new </a>
+
+                            <a href="/admin/addProducts" class="btn btn-primary btn-sm rounded">creat new </a>
                         </div>
                     </div>
                     <div class="card mb-4">
@@ -50,13 +40,13 @@
                                             <% } %>
                                     </select>
                                 </div>
-                                <div class="col-lg-2 col-6 col-md-3">
+                                <!-- <div class="col-lg-2 col-6 col-md-3">
                                     <select class="form-select">
                                         <option>Latest added</option>
                                         <option>Cheap first</option>
                                         <option>Most viewed</option>
                                     </select>
-                                </div>
+                                </div> -->
                             </div>
                         </header> <!-- card-header end// -->
                         <div class="card-body">
@@ -144,7 +134,7 @@
                         <div class="col-sm-6">
                             <script>
                                 document.write(new Date().getFullYear())
-                            </script> ©, Evara - HTML Ecommerce Template .
+                            </script> ©,flock
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end">
@@ -227,18 +217,18 @@
             <% } %>
 
                 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-                <!-- <script>
-    function redirectToCategory(select) {
-        var categoryId = select.value;
-        if (categoryId === "") {
-            // If "All Categories" is selected, navigate to a different URL
-            window.location.href = "/admin/allProductsList";
-        } else {
-            // For other options, navigate to the specified URL
-            window.location.href = "/admin/productList?id=" + categoryId;
-        }
-    }
-</script> -->
+                <script>
+                    function redirectToCategory(select) {
+                        var categoryId = select.value;
+                        if (categoryId === "") {
+                            // If "All Categories" is selected, navigate to a different URL
+                            window.location.href = "/admin/allProductsList";
+                        } else {
+                            // For other options, navigate to the specified URL
+                            window.location.href = "/admin/productList?id=" + categoryId;
+                        }
+                    }
+                </script>
                 <!-- Bootstrap modal for applying offers -->
                 <script>
                     async function removeOffer(productId) {

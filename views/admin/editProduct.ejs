@@ -2,15 +2,8 @@
 
     <body>
         <div class="screen-overlay"></div>
-        <aside class="navbar-aside" id="offcanvas_aside">
-            s <div class="aside-top" style="background-color:rgb(255, 250, 250);">
-                <a href="index.html" class="brand-wrap">
-                    <img src="/admin-assets/imgs/theme/logo.png" class="logo" alt="Evara Dashboard">
-                </a>
-                <div>
-                    <button class="btn btn-icon btn-aside-minimize"> <i>
-                            class="text-muted material-icons md-menu_open"></i> </button>
-                </div>
+        <aside class="navbar-aside" id="offcanvas_aside" style="background-color:rgb(255, 250, 250);">
+
             </div> <%- include('../layouts/adminNavbar.ejs') -%>
         </aside>
         <main class="main-wrap">
@@ -138,18 +131,22 @@
                                             <div class="mb-4">
                                                 <label class="form-label">category</label>
 
-                                                <% for(let i=0;i<category.length;i++){%>
-
-
+                                                <% for(let i=0; i < category.length; i++) { %>
                                                     <label class="mb-2 form-check form-check-inline"
                                                         style="width: 45%;">
-                                                        <input class="form-check-input" checked="" name="proCategory"
-                                                            value="<%= category[i]._id%>" type="radio" required>
-                                                        <span class="form-check-label">
-                                                            <%= category[i].catName %>
-                                                        </span>
+                                                        <input class="form-check-input" name="proCategory"
+                                                            value="<%= category[i]._id %>" <% if
+                                                            (products.category.toString()===category[i]._id.toString())
+                                                            { %> checked <% } %>
+                                                            type="radio"
+                                                            required
+                                                            />
+                                                            <span class="form-check-label">
+                                                                <%= category[i].catName %>
+                                                            </span>
                                                     </label>
                                                     <% } %>
+
                                             </div>
                                         </div>
                                         <!-- ... (unchanged) ... -->

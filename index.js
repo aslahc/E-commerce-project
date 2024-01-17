@@ -7,7 +7,7 @@ const easyinvoice = require("easyinvoice");
 const { Readable } = require("stream");
 
 // Create an Express application
-const app = express();
+const app = express(); 
 require("dotenv").config();
 
 // Connect to MongoDB

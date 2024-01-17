@@ -162,6 +162,7 @@ admin_route.patch(
   orderController.adminCancelOrder
 );
 
+
 // Coupon routes
 admin_route.get(
   "/listCoupon",
@@ -277,6 +278,9 @@ admin_route.delete(
   adminAuthMiddleware.adminLoggedIn,
   bannerController.deleteBanner
 );
+
+
+
 
 
 admin_route.use( errorHandler )

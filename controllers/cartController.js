@@ -4,6 +4,9 @@ const Category = require("../models/categoryModel");
 const Cart = require("../models/cartModel");
 const Address = require("../models/AddressModel");
 const Coupon = require("../models/couponModel");
+
+
+// load cart 
 const loadCart = async (req, res) => {
   try {
     const loggedIn = req.session.user_id ? true : false;
@@ -26,6 +29,9 @@ const loadCart = async (req, res) => {
   }
 };
 
+
+
+// add to cart 
 const addToCart = async (req, res) => {
   try {
     const id = req.params.id;
@@ -83,6 +89,8 @@ const addToCart = async (req, res) => {
   }
 };
 
+
+// add to cart from home page and shoplist page 
 const addCartIcon = async (req, res) => {
   try {
     const id = req.query.id;
@@ -136,6 +144,9 @@ const addCartIcon = async (req, res) => {
   }
 };
 
+
+// delete a cart item 
+
 const deleteCartItem = async (req, res) => {
   try {
     const id = req.query.id;
@@ -152,6 +163,10 @@ const deleteCartItem = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
+
+// update cart quantity 
+
 const updateQuantity = async (req, res, quantityModifier) => {
   try {
     const product_id = req.query.id;
@@ -203,6 +218,7 @@ const updateQuantity = async (req, res, quantityModifier) => {
   }
 };
 
+// qty inc 
 const qtyInc = async (req, res) => {
   try {
     await updateQuantity(req, res, 1);
@@ -211,6 +227,8 @@ const qtyInc = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+ 
+// qty decrement 
 
 const qtyDec = async (req, res) => {
   try {
@@ -221,6 +239,9 @@ const qtyDec = async (req, res) => {
   }
 };
 
+
+
+// load checkout page 
 const checkoutPage = async (req, res) => {
   try {
     const userId = req.session.user_id;

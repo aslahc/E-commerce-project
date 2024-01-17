@@ -6,6 +6,7 @@ const handleServerError = (res, error, message = "Internal Server Error") => {
   console.error(`Error: ${error.message}`);
   res.status(500).send(message);
 };
+// admin side add product page load 
 
 const addProductPageLoad = async (req, res) => {
   try {
@@ -15,6 +16,8 @@ const addProductPageLoad = async (req, res) => {
     handleServerError(res, error, "Error loading add product page");
   }
 };
+
+// save product in database 
 
 const publishProduct = async (req, res) => {
   try {
@@ -52,6 +55,9 @@ const publishProduct = async (req, res) => {
     handleServerError(res, error, "Error publishing product");
   }
 };
+
+
+// admin side load product list 
 
 const loadProductList = async (req, res) => {
   try {
@@ -95,6 +101,9 @@ const loadProductList = async (req, res) => {
   }
 };
 
+
+// load edit product 
+
 const loadEditProduct = async (req, res) => {
   try {
     const id = req.query.id;
@@ -114,6 +123,9 @@ const loadEditProduct = async (req, res) => {
   }
 };
 
+
+// delete product from admin side 
+
 const deleteProduct = async (req, res) => {
   try {
     const id = req.query.id;
@@ -128,6 +140,9 @@ const deleteProduct = async (req, res) => {
     handleServerError(res, error, "Error deleting product");
   }
 };
+
+
+// update product 
 
 const updateProducts = async (req, res) => {
   try {
@@ -179,6 +194,10 @@ const updateProducts = async (req, res) => {
   }
 };
 
+
+
+// user side product details page 
+
 const productDetailsPage = async (req, res) => {
   try {
     const loggedIn = req.session.user_id ? true : false;
@@ -186,12 +205,14 @@ const productDetailsPage = async (req, res) => {
 
     const productData = await Products.findById(id);
     const categoryData = await Category.find({});
-
+    const relatedProduct = await Products.find({ category: productData.category }).limit(4);
+    console.log(relatedProduct)
     if (productData) {
       res.render("productDetails.ejs", {
         loggedIn,
         products: productData,
         category: categoryData,
+        relatedProduct,
       });
     } else {
       res.redirect("/home");
@@ -201,6 +222,7 @@ const productDetailsPage = async (req, res) => {
   }
 };
 
+// user side  all product list page 
 const shopList = async (req, res) => {
   try {
     const search = req.query.search;
@@ -286,6 +308,9 @@ const shopList = async (req, res) => {
   }
 };
 
+
+// delete a single image from data base 
+
 const deleteSingleImage = async (req, res) => {
   try {
     const { productId, filename } = req.body;
@@ -331,6 +356,10 @@ const deleteSingleImage = async (req, res) => {
   }
 };
 
+
+
+// add a offer  for product 
+
 const addProductOffer = async (req, res) => {
   try {
     const productId = req.body.productId;
@@ -363,6 +392,10 @@ const addProductOffer = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
+
+
+// remove product offer 
+
 const removeProductOffer = async (req, res) => {
   try {
     const productId = req.body.productId;

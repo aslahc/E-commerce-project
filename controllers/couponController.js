@@ -122,6 +122,10 @@ const deleteCoupon = async (req, res) => {
   }
 };
 
+
+// admin side add  coupon code 
+
+
 const addCouponCode = async (req, res) => {
   try {
     const { subtotal, couponCode } = req.body;

@@ -6,29 +6,39 @@ const Order = require("../models/orderModel");
 // Load Dashboard
 const loadDash = async (req, res) => {
   try {
+    // Fetch all categories
     const categories = await Category.find({});
+
+    // Fetch all orders with populated product details
     const orders = await Order.find({});
 
+    // Calculate total revenue
     const revenue = orders.reduce((totalRevenue, order) => {
-      const completedProducts = order.products.filter(
-        (product) => product.status === "Delivered"
-      );
-
-      const orderRevenue = completedProducts.reduce(
-        (subtotal, product) => subtotal + product.price,
-        0
-      );
-
-      return totalRevenue + orderRevenue;
+      if (order.status !== 'Cancelled') {
+        const orderRevenue = order.products.reduce(
+          (subtotal, product) => subtotal + product.price * product.quantity,
+          0
+        );
+        totalRevenue += orderRevenue;
+      }
+      return totalRevenue;
     }, 0);
 
+    // Calculate total number of orders (excluding cancelled orders)
     const totalNumberOfOrders = orders.reduce((totalOrders, order) => {
-      return totalOrders + order.products.length;
+      if (order.status !== 'Cancelled') {
+        return totalOrders + order.products.length;
+      }
+      return totalOrders;
     }, 0);
 
+    // Fetch total number of products
     const totalNumberOfProducts = await Products.countDocuments();
+
+    // Fetch total number of categories
     const totalCategories = await Category.countDocuments();
 
+    // Calculate monthly revenue
     const currentDate = new Date();
     const firstDayOfMonth = new Date(
       currentDate.getFullYear(),
@@ -40,13 +50,16 @@ const loadDash = async (req, res) => {
       createdOn: { $gte: firstDayOfMonth },
     });
 
+
+
+    // Calculate monthly revenue (excluding cancelled orders)
     const monthlyRevenue = monthlyOrders.reduce((totalRevenue, order) => {
       const completedProducts = order.products.filter(
-        (product) => product.status === "Delivered"
+        (product) => product.status !== 'Cancelled'
       );
 
       const orderRevenue = completedProducts.reduce(
-        (subtotal, product) => subtotal + product.price,
+        (subtotal, product) => subtotal + product.price * product.quantity,
         0
       );
 
@@ -67,6 +80,9 @@ const loadDash = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
+
+
 
 
 // Load Users List
@@ -92,7 +108,7 @@ const loadUsersList = async (req, res) => {
     const totalNumberOfUsers = await User.find(query).countDocuments();
     const totalNumberOfPages = Math.ceil(totalNumberOfUsers / usersPerPage);
 
-    const usersData = await User.find(query)
+    const usersData = await User.find(query).sort({ createdAt: -1 })
       .skip(page * usersPerPage)
       .limit(usersPerPage);
 
@@ -108,26 +124,32 @@ const loadUsersList = async (req, res) => {
   }
 };
 
+
+
 // Block User
 const blockUser = async (req, res) => {
   try {
+ 
+    console.log("enterinfgg")
     const userId = req.params.userId;
 
     const userData = await User.findById(userId);
+    if (!userData) {  
+      return res.status(404).json({ error: "User not found" });
+    }
 
-    if (userData) {
+
       // Toggle is_block status
       userData.is_block = !userData.is_block;
+      
+      await userData.save();
 
+    console.log("chanefes suces")
+      if (userData.is_block) res.json({ success: true, is_blocked: true });
+   
+      if (!userData.is_block) res.json({ success: true, is_blocked: false });
       // Save the updated user data
-      const updatedUser = await userData.save();
-
-      // Respond with the updated user data
-      res.status(200).json(updatedUser);
-    } else {
-      console.error("Failed to block user: User not found");
-      res.status(404).send("User not found");
-    }
+     
   } catch (error) {
     console.error("Error in blockUser:", error.message);
     res.status(500).send("Internal Server Error");

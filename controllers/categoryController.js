@@ -140,6 +140,7 @@ const addCategoryOffer = async (req, res) => {
     res.status(500).json("Internal server error");
   }
 };
+// remove category offer 
 
 const removeCategoryOffer = async (req, res) => {
   try {

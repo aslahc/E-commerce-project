@@ -55,20 +55,24 @@
                 </div>
                 <div class="header-right">
                     <div class="search-style-2">
-                        <div class="input-group">
-                            <select class="form-select select-active" id="categorySelect">
-                                <option value="All">All Categories</option>
-                                <% for(let i=0; i < category.length; i++) { %>
-                                    <option value="<%= category[i]._id %>">
-                                        <%= category[i].catName %>
-                                    </option>
-                                    <% } %>
-                            </select>
-                            <input type="text" class="form-control" id="searchInput" name="search"
-                                placeholder="Search for items...">
-                            <button class="btn btn-outline-secondary" type="button"
-                                onclick="submitSearch()">Search</button>
-                        </div>
+                        <form action="#" style="background-color:rgb(249, 244, 244)">
+                            <div class="input-group" style="background-color:rgb(249, 244, 244)">
+                                <select class="form-select select-active" id="categorySelect"
+                                    style="background-color:rgb(249, 244, 244)">
+                                    <option value="All" style="background-color:rgb(249, 244, 244)">All Categories
+                                    </option style="background-color:rgb(249, 244, 244)">
+                                    <% for(let i=0; i < category.length; i++) { %>
+                                        <option value="<%= category[i]._id %>">
+                                            <%= category[i].catName %>
+                                        </option>
+                                        <% } %>
+                                </select>
+                                <input type="text" class="form-control" id="searchInput" name="search"
+                                    placeholder="Search for items...">
+                                <button class="btn btn-outline-secondary" type="button"
+                                    onclick="submitSearch()">Search</button>
+                            </div>
+                        </form>
                     </div>
 
                     <div class="header-action-right">
@@ -76,13 +80,13 @@
                             <div class="header-action-icon-2">
                                 <a href="/wishlist">
                                     <img class="svgInject" alt="Evara" src="/assets/imgs/theme/icons/icon-heart.svg">
-                                    <span class="pro-count blue">4</span>
+
                                 </a>
                             </div>
                             <div class="header-action-icon-2">
                                 <a class="mini-cart-icon" href="/cart">
                                     <img alt="Evara" src="/assets/imgs/theme/icons/icon-cart.svg">
-                                    <span class="pro-count blue">2</span>
+
                                 </a>
                             </div>
                         </div>

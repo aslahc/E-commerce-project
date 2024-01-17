@@ -2,16 +2,8 @@
 
     <body>
         <div class="screen-overlay"></div>
-        <aside class="navbar-aside" id="offcanvas_aside">
-            <div class="aside-top" style="background-color:rgb(255, 250, 250);">
-                <a href="index.html" class="brand-wrap">
-                    <img src="/admin-assets/imgs/theme/logo.png" class="logo" alt="Evara Dashboard">
-                </a>
-                <div>
-                    <button class="btn btn-icon btn-aside-minimize"> <i
-                            class="text-muted material-icons md-menu_open"></i> </button>
-                </div>
-            </div>
+        <aside class="navbar-aside" id="offcanvas_aside" style="background-color:rgb(255, 250, 250);">
+
             <%- include('../layouts/adminNavbar.ejs') -%>
         </aside>
         <main class="main-wrap">
@@ -25,8 +17,7 @@
                                 <div class="content-header">
                                     <h2 class="content-title">Add New Product</h2>
                                     <div>
-                                        <button class="btn btn-light rounded font-sm mr-2 text-body hover-up">Save to
-                                            draft</button>
+
                                         <button type="submit"
                                             class="btn btn-md rounded font-sm hover-up">Publish</button>
                                     </div>

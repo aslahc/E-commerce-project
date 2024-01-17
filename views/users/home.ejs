@@ -341,20 +341,20 @@
                             <div class="hero-slider-1 style-4 dot-style-1 dot-style-1-position-1">
                                 <% console.log("this is banner " + banner) %>
                           <% for (let i = 0; i < banner.length; i++) { %>
-                          <div class=" single-hero-slider single-animation-wrap">
+                            <div class=" single-hero-slider single-animation-wrap">
                                     <div class="container">
                                         <div class="row justify-content-center slider-animated-1">
                                             <div class="col-lg-12 col-md-12 slider-image"
-                                                style="background-image: url('/admin-asset/productImage/<%=banner[i].image[0].filename %>'); background-size: cover; background-position: center; height: 550px;">
+                                                style="background-image: url('/admin-asset/productImage/<%= banner[i].image[0].filename %>'); background-size: cover; background-position: center; height: 550px;">
                                                 <div class="hero-slider-content-2 text-center align-items-center">
                                                     <br /><br /><br />
                                                     <h2 class="animated fw-900"
-                                                        style="color: darkgray; font-size: 2rem;">
+                                                        style="color: rgb(255, 97, 97); font-size: 2.5rem;">
                                                         <%= banner[i].title %>
                                                     </h2>
                                                     <br /><br /><br /><br /><br /><br />
                                                     <p class="animated"
-                                                        style="margin-left: 1.5rem; color: white; font-size: 1rem;">
+                                                        style="margin-left: 6.9rem; color: rgb(253, 187, 121); font-size: 1.2rem;">
                                                         <%= banner[i].description %>
                                                     </p>
                                                     <br /><br /><br /><br /><br /><br />
@@ -365,6 +365,7 @@
                                         </div>
                                     </div>
                             </div>
+
                             <% } %>
                         </div>
                     </div>
@@ -454,16 +455,11 @@
                                                             </a>
                                                         </div>
                                                         <div class="product-action-1">
-                                                            <a aria-label="Quick view" class="action-btn hover-up"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#quickViewModal"><i
-                                                                    class="fi-rs-eye"></i></a>
+
                                                             <a aria-label="Add To Wishlist" class="action-btn hover-up"
                                                                 onclick="addToWishlist('/addwishlist?id=<%= products[i]._id %>')"><i
                                                                     class="fi-rs-heart"></i></a>
-                                                            <a aria-label="Compare" class="action-btn hover-up"
-                                                                href="shop-compare.html"><i
-                                                                    class="fi-rs-shuffle"></i></a>
+
                                                         </div>
                                                         <div
                                                             class="product-badges product-badges-position product-badges-mrg">
@@ -558,6 +554,54 @@
                         </div>
                     </div>
                 </section>
+                <section class="deals section-padding">
+                    <div class="container">
+                        <div class="row">
+                            <!-- First Banner -->
+                            <div class="col-lg-6 deal-co">
+                                <div class="deal wow fadeIn animated mb-md-4 mb-sm-4 mb-lg-0"
+                                    style="background-image: url('/admin-asset/productImage/<%=banner[1].image[0].filename %>');">
+                                    <div class="deal-top">
+                                        <h2 class="text-brand">
+                                            <%= banner[1].title %>
+                                        </h2>
+                                    </div>
+                                    <div class="deal-content">
+                                        <h6 class="product-title"><a href="<%= banner[1].link %>">
+                                                <%= banner[1].description %>
+                                            </a></h6>
+                                        <a href="<%= banner[1].link %>" class="btn hover-up">Shop Now <i
+                                                class="fi-rs-arrow-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Second Banner -->
+                            <div class="col-lg-6 deal-co">
+                                <div class="deal wow fadeIn animated"
+                                    style="background-image: url('/admin-asset/productImage/<%=banner[0].image[0].filename %>');">
+                                    <div class="deal-top">
+                                        <h2 class="text-success">
+                                            <%= banner[0].title %>
+                                        </h2>
+                                    </div>
+                                    <div class="deal-content">
+                                        <h6 class="product-title"><a href="<%= banner[0].link %>">
+                                                <%= banner[0].description %>
+                                            </a></h6>
+                                        <div class="deal-bottom">
+                                            <p>Hurry Up! Offer Ends In:</p>
+
+                                            <a href="<%= banner[1].link %>" class="btn hover-up">Shop Now <i
+                                                    class="fi-rs-arrow-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
 
                 <section class="pt-25 pb-20">
                     <div class="container wow fadeIn animated">
@@ -630,53 +674,6 @@
                                                     <!-- End product-cart-wrap-2 -->
 
                                                     <!--End product-cart-wrap-2-->
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <section class="deals section-padding">
-                    <div class="container">
-                        <div class="row">
-                            <!-- First Banner -->
-                            <div class="col-lg-6 deal-co">
-                                <div class="deal wow fadeIn animated mb-md-4 mb-sm-4 mb-lg-0"
-                                    style="background-image: url('/admin-asset/productImage/<%=banner[1].image[0].filename %>');">
-                                    <div class="deal-top">
-                                        <h2 class="text-brand">
-                                            <%= banner[1].title %>
-                                        </h2>
-                                    </div>
-                                    <div class="deal-content">
-                                        <h6 class="product-title"><a href="<%= banner[1].link %>">
-                                                <%= banner[1].description %>
-                                            </a></h6>
-                                        <a href="<%= banner[1].link %>" class="btn hover-up">Shop Now <i
-                                                class="fi-rs-arrow-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Second Banner -->
-                            <div class="col-lg-6 deal-co">
-                                <div class="deal wow fadeIn animated"
-                                    style="background-image: url('/admin-asset/productImage/<%=banner[0].image[0].filename %>');">
-                                    <div class="deal-top">
-                                        <h2 class="text-success">
-                                            <%= banner[0].title %>
-                                        </h2>
-                                    </div>
-                                    <div class="deal-content">
-                                        <h6 class="product-title"><a href="<%= banner[0].link %>">
-                                                <%= banner[0].description %>
-                                            </a></h6>
-                                        <div class="deal-bottom">
-                                            <p>Hurry Up! Offer Ends In:</p>
-
-                                            <a href="<%= banner[1].link %>" class="btn hover-up">Shop Now <i
-                                                    class="fi-rs-arrow-right"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>

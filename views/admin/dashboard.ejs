@@ -3,16 +3,8 @@
 
     <body>
         <div class="screen-overlay"></div>
-        <aside class="navbar-aside" id="offcanvas_aside">
-            <div class="aside-top" style="background-color:rgb(255, 250, 250);">
-                <a href="index.html" class="brand-wrap">
-                    <img src="/admin-assets/imgs/theme/logo.png" class="logo" alt="Evara Dashboard">
-                </a>
-                <div>
-                    <button class="btn btn-icon btn-aside-minimize"> <i
-                            class="text-muted material-icons md-menu_open"></i> </button>
-                </div>
-            </div>
+        <aside class="navbar-aside" id="offcanvas_aside" style="background-color:rgb(255, 250, 250);">
+
             <%- include('../layouts/adminNavbar.ejs') -%>
         </aside>
         <main class="main-wrap">
@@ -61,8 +53,8 @@
                             </div>
                         </div>
                         <div class="col-lg-3">
-                            <div class="card card-body mb-4">
-                                <article class="icontext">
+                            <div class="card card-body ">
+                                <article class="icontext" style="margin-bottom: 21px;">
                                     <span class="icon icon-sm rounded-circle bg-warning-light"><i
                                             class="text-warning material-icons md-qr_code"></i></span>
                                     <div class="text">
@@ -78,7 +70,7 @@
                         </div>
                         <div class="col-lg-3">
                             <div class="card card-body mb-4">
-                                <article class="icontext">
+                                <article class="icontext" style="margin-bottom: -21px;">
                                     <span class="icon icon-sm rounded-circle bg-info-light"><i
                                             class="text-info material-icons md-shopping_basket"></i></span>
                                     <div class="text">
@@ -116,7 +108,7 @@
                     <!-- Add this above your canvas -->
 
                     <!--     -->
-                    <div class="card mb-4">
+                    <!-- <div class="card mb-4">
                         <header class="card-header">
                             <h4 class="card-title">Latest orders</h4>
                             <div class="row align-items-center">
@@ -151,9 +143,9 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-                        </header>
-                        <div class="card-body">
+                            </div> -->
+                    </header>
+                    <!-- <div class="card-body">
                             <div class="table-responsive">
                                 <p>heyy</p>
                                 <div class="table-responsive">
@@ -348,9 +340,9 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                </div>
-                            </div> <!-- table-responsive end// -->
-                        </div>
+                                </div> -->
+                    <!-- </div> -->
+                    <!-- </div>
                     </div>
                     <div class="pagination-area mt-30 mb-50">
                         <nav aria-label="Page navigation example">
@@ -364,14 +356,14 @@
                                             class="material-icons md-chevron_right"></i></a></li>
                             </ul>
                         </nav>
-                    </div>
+                    </div> -->
                 </section> <!-- content-main end// -->
                 <footer class="main-footer font-xs">
                     <div class="row pb-30 pt-15">
                         <div class="col-sm-6">
                             <script>
                                 document.write(new Date().getFullYear())
-                            </script> ©, Evara - HTML Ecommerce Template .
+                            </script> ©,flock
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end">

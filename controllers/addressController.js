@@ -7,35 +7,47 @@ const Wallet = require("../models/walletModel");
 const Address = require("../models/AddressModel");
 const Order = require("../models/orderModel");
 
+
+
+
+
+
 const bcrypt = require("bcrypt");
+
+// load profile page 
 const profilePage = async (req, res) => {
   try {
     const userId = req.session.user_id;
 
-    const WalletData = await Wallet.findOne({ user_id: userId });
+    const walletData = await Wallet.findOne({ user_id: userId });
+
+    // Sort transactions in descending order based on date
+    walletData.transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     const userData = await User.findById({ _id: userId });
     const addressData = await Address.find({ user_id: userId });
-
     const orderData = await Order.find({ user: userId }).sort({
       createdOn: -1,
     });
 
     const loggedIn = req.session.user_id ? true : false;
     const categoryData = await Category.find({ is_active: false });
+
     res.render("profile", {
       loggedIn,
       category: categoryData,
       address: addressData,
       user: userData,
       order: orderData,
-      wallet: WalletData,
+      wallet: walletData,
     });
   } catch (error) {
     res.status(500).send("Internal Server Error. Please try again later.");
   }
 };
 
+
+//add user addresss
 const addAddress = async (req, res) => {
   try {
     const fullName = req.body.fullName;
@@ -69,6 +81,8 @@ const addAddress = async (req, res) => {
   }
 };
 
+
+// delete user address
 const deletAddress = async (req, res) => {
   try {
     const id = req.query.id;
@@ -83,6 +97,8 @@ const deletAddress = async (req, res) => {
   }
 };
 
+
+//edit user address
 const loadEditAddress = async (req, res) => {
   try {
     id = req.query.id;
@@ -99,6 +115,8 @@ const loadEditAddress = async (req, res) => {
   }
 };
 
+
+//save edited address
 const editAddressSave = async (req, res) => {
   try {
     const addressData = await Address.findByIdAndUpdate(
@@ -126,6 +144,8 @@ const editAddressSave = async (req, res) => {
   }
 };
 
+
+// edit user profile 
 const editProfile = async (req, res) => {
   try {
     id = req.query.id;
@@ -145,6 +165,9 @@ const editProfile = async (req, res) => {
   }
 };
 
+
+
+// save edited user details 
 const updateUserData = async (req, res) => {
   try {
     id = req.body.id;

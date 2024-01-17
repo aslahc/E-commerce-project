@@ -3,6 +3,9 @@ const Wishlist = require("../models/wishlist");
 const Products = require("../models/productModel");
 const Cart = require("../models/cartModel");
 
+
+// load wishilist  page 
+
 const loadWishlist = async (req, res) => {
   try {
     const loggedIn = req.session.user_id ? true : false;
@@ -27,6 +30,9 @@ const loadWishlist = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
+
+// add a product into wishlist 
 
 const addToWishlist = async (req, res) => {
   try {
@@ -57,6 +63,9 @@ const addToWishlist = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+
+// add a product form wishlist to cart 
 
 const wishlistToCart = async (req, res) => {
   try {
@@ -111,6 +120,8 @@ const wishlistToCart = async (req, res) => {
     res.status(500).json("Internal Server Error");
   }
 };
+
+// delete a item from wishlist 
 
 const deleteWishlist = async (req, res) => {
   try {

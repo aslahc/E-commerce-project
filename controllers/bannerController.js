@@ -1,4 +1,5 @@
 const Banner = require("../models/bannerModel");
+// add banner page load 
 
 const loadAddBanner = async (req, res) => {
   try {
@@ -9,14 +10,16 @@ const loadAddBanner = async (req, res) => {
 };
 
 // save banner data in database
-
 const createBanner = async (req, res) => {
   try {
     console.log("Entering createBanner");
 
-    z;
+    // Extract necessary data from the request
+    const { title, description, link } = req.body;
+
     let imageFiles = [];
 
+    // Check if there are uploaded files
     if (req.files && req.files.length > 0) {
       imageFiles = req.files.map((file) => ({ filename: file.filename }));
     }
@@ -24,20 +27,24 @@ const createBanner = async (req, res) => {
     console.log("Uploaded image files:", imageFiles);
     console.log("Request body:", req.body);
 
+    // Use findOne with a query object to find if a banner with the same title exists
     const alreadyExist = await Banner.findOne({ title });
 
     if (!alreadyExist) {
+      // Create a new banner instance
       const banner = new Banner({
         image: imageFiles,
         title,
         description,
-        date: Date.now(),
+        date: new Date(),
         link,
       });
 
+      // Save the banner to the database
       const savedBanner = await banner.save();
       console.log("Saved banner:", savedBanner);
 
+      // Redirect to the banners page after successful creation
       res.redirect("/admin/banners");
     } else {
       console.log("Banner with the same title already exists.");
@@ -49,6 +56,8 @@ const createBanner = async (req, res) => {
   }
 };
 
+//banner list page
+
 const bannerList = async (req, res) => {
   try {
     const bannerData = await Banner.find();
@@ -57,6 +66,9 @@ const bannerList = async (req, res) => {
     res.status(500).send("Internal server error");
   }
 };
+
+
+// edit banner page 
 const bannerEdit = async (req, res) => {
   try {
     const bannerId = req.query.id;
@@ -67,6 +79,8 @@ const bannerEdit = async (req, res) => {
   }
 };
 
+
+// save edited banner 
 const updateBanner = async (req, res) => {
   try {
     // Destructure values from the request body
@@ -117,6 +131,8 @@ const updateBanner = async (req, res) => {
   }
 };
 
+
+//delete banner 
 const deleteBanner = async (req, res) => {
   try {
     const id = req.body.id;
